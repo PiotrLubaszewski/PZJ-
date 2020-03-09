@@ -373,3 +373,4 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+/server-app/Timesheet/Timesheet.Api/appsettings.Production.json
