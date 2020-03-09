@@ -18,4 +18,8 @@
     <ProjectReference Include="..\Timesheet.Persistence\Timesheet.Persistence.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\Response\" />
+  </ItemGroup>
+
 </Project>

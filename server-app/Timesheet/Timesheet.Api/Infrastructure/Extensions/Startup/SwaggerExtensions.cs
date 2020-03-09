@@ -1,4 +1,4 @@
-﻿namespace Timesheet.Api.Extensions.Startup
+﻿namespace Timesheet.Api.Infrastructure.Extensions.Startup
 {
     using Microsoft.AspNetCore.Builder;
     using Microsoft.Extensions.DependencyInjection;
