@@ -7,6 +7,7 @@ namespace Timesheet.Api
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using Timesheet.Api.Extensions.Startup;
     using Timesheet.Persistence;
     using Timesheet.Persistence.Entities.Identities;
 
@@ -35,6 +36,9 @@ namespace Timesheet.Api
                 options.Password.RequireUppercase = false;
                 options.Password.RequireNonAlphanumeric = false;
             }).AddEntityFrameworkStores<TimesheetContext>().AddDefaultTokenProviders();
+
+            // Add swagger
+            services.AddSwagger();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,6 +48,8 @@ namespace Timesheet.Api
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseSwaggerAndSwaggerUI();
 
             app.UseHttpsRedirection();
 
