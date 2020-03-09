@@ -10,6 +10,8 @@
     /// </summary>
     public partial class TimesheetContext : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>
     {
+        public TimesheetContext(DbContextOptions<TimesheetContext> options) : base(options) { }
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
