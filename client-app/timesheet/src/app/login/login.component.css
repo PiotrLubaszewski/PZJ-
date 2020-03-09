@@ -1,0 +1,32 @@
+.signin__form {
+  display: flex;
+  justify-content: center;
+  margin-top: 20vh;
+}
+
+.signin__form-field {
+  width: 75%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.login__form{
+  width: 35vw;
+  padding-top: 25px;
+}
+
+.btn__row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  background-color: green;
+  color: white
+}
