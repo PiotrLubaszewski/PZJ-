@@ -35,12 +35,16 @@ namespace Timesheet.Api
 
             // Register all services (classes thats name ends with 'Service')
             services.AddApplicationServices();
+
+            // Add Cors policy
+            services.AddCorsPolicy();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseSwaggerAndSwaggerUI();
             app.UseMiddleware<ExceptionMiddleware>();
+            app.UseCors("CorsPolicy");
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthentication();
