@@ -26,7 +26,7 @@ namespace Timesheet.Api.Infrastructure.Utils
 
             foreach (var role in model.Roles)
             {
-                claims.Add(new Claim("roles", role));
+                claims.Add(new Claim(ClaimTypes.Role, role));
             }
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.SecretKey));

@@ -1,9 +1,14 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Timesheet.Core.Exceptions;
 using Timesheet.Core.Extensions;
 using Timesheet.Core.Interfaces.Services;
+using Timesheet.Core.Models.Accounts;
+using Timesheet.Core.Models.Collections.Interfaces;
 using Timesheet.Core.Models.Helpers;
 using Timesheet.Core.Models.Queries.Accounts;
 using Timesheet.Persistence.Entities.Identities;
@@ -40,6 +45,68 @@ namespace Timesheet.Core.Services
                 LastName = user.LastName,
                 Roles = roles
             };
+        }
+
+        public async Task<ICollectionResult<RoleModel>> GetRolesAsync(OperationQuery operationQuery, CancellationToken cancellationToken)
+        {
+            return await _roleManager.Roles.ToCollectionResultAsync<ApplicationRole, RoleModel>(operationQuery, cancellationToken);
+        }
+
+        public async Task<ICollectionResult<RoleModel>> GetUserRolesAsync(string userId, OperationQuery operationQuery, CancellationToken cancellationToken)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            var roles = await _userManager.GetRolesAsync(user);
+
+            return await _roleManager.Roles.Where(x => roles.Contains(x.Name)).ToCollectionResultAsync<ApplicationRole, RoleModel>(operationQuery, cancellationToken);
+        }
+
+        public async Task AddAccountAsync(AddAccountModel model)
+        {
+            var userWithGivenEmail = await _userManager.FindByEmailAsync(model.Email);
+            if (userWithGivenEmail != null) throw new InvalidValidationException(nameof(model.Email).ToCamelCase(), $"Given {nameof(model.Email)} is taken.");
+
+            var userWithGivenUsername = await _userManager.FindByNameAsync(model.UserName);
+            if (userWithGivenUsername != null) throw new InvalidValidationException(nameof(model.UserName).ToCamelCase(), $"Given {nameof(model.UserName)} is taken.");
+
+            var user = new ApplicationUser
+            {
+                UserName = model.UserName,
+                Email = model.Email,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                EmailConfirmed = true,
+                CreatedDateTime = DateTime.Now
+            };
+
+            var result = await _userManager.CreateAsync(user, model.Password);
+            if (!result.Succeeded) throw new InvalidOperationException("An error ocurred during creating new account.");
+        }
+
+        public async Task AddUserRolesAsync(string userId, AddOrUpdateUserRolesModel model, CancellationToken cancellationToken)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            var roles = await _userManager.GetRolesAsync(user);
+
+            if (roles.Any()) throw new InvalidOperationException("This account is already in role(s).");
+
+            var rolesNames = await _roleManager.Roles.Where(x => model.RolesIds.Select(id => Guid.Parse(id)).Contains(x.Id)).Select(x => x.Name).ToListAsync(cancellationToken);
+            var result = await _userManager.AddToRolesAsync(user, rolesNames);
+            if (!result.Succeeded) throw new InvalidOperationException("An error ocurred during adding roles.");
+        }
+
+        public async Task UpdateUserRolesAsync(string userId, AddOrUpdateUserRolesModel model, CancellationToken cancellationToken)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            var roles = await _userManager.GetRolesAsync(user);
+
+            if (!roles.Any()) throw new InvalidOperationException("This account has no role(s).");
+
+            var removeResult = await _userManager.RemoveFromRolesAsync(user, roles);
+            if (!removeResult.Succeeded) throw new InvalidOperationException("An error ocurred during adding roles.");
+
+            var rolesNames = await _roleManager.Roles.Where(x => model.RolesIds.Select(id => Guid.Parse(id)).Contains(x.Id)).Select(x => x.Name).ToListAsync(cancellationToken);
+            var result = await _userManager.AddToRolesAsync(user, rolesNames);
+            if (!result.Succeeded) throw new InvalidOperationException("An error ocurred during adding roles.");
         }
     }
 }

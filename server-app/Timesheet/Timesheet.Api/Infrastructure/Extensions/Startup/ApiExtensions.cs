@@ -29,7 +29,7 @@
                         foreach (var key in context.ModelState.Keys)
                         {
                             var value = context.ModelState[key];
-                            var keyCamelCase = key.ToCamelCase();
+                            var keyCamelCase = key?.ToCamelCase();
                             if (value.Errors.Any()) errors.Add(keyCamelCase, value.Errors.Select(x => x.ErrorMessage));
                         }
 
