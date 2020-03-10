@@ -7,6 +7,7 @@
     using System.Linq;
     using Timesheet.Api.Models;
     using Timesheet.Api.Validators.Accounts;
+    using Timesheet.Core.Extensions;
 
     public static class ApiExtensions
     {
@@ -28,7 +29,7 @@
                         foreach (var key in context.ModelState.Keys)
                         {
                             var value = context.ModelState[key];
-                            var keyCamelCase = key[0].ToString().ToLower() + key.Substring(1, key.Length - 1);
+                            var keyCamelCase = key.ToCamelCase();
                             if (value.Errors.Any()) errors.Add(keyCamelCase, value.Errors.Select(x => x.ErrorMessage));
                         }
 

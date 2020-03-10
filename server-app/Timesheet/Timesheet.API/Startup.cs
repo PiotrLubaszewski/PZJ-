@@ -6,6 +6,7 @@ namespace Timesheet.Api
     using Microsoft.Extensions.DependencyInjection;
     using Timesheet.Api.Infrastructure.Extensions.Startup;
     using Timesheet.Api.Infrastructure.Middlewares;
+    using Timesheet.Api.Models.Settings;
 
     public class Startup
     {
@@ -26,6 +27,14 @@ namespace Timesheet.Api
 
             // Add Swagger
             services.AddSwagger();
+
+            // Get JWT Settings and configure Authentication
+            var jwtSettings = Configuration.GetSection("JwtSettings").Get<JwtSettings>();
+            services.AddSingleton(jwtSettings);
+            services.AddJwtBearer(jwtSettings);
+
+            // Register all services (classes thats name ends with 'Service')
+            services.AddApplicationServices();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
