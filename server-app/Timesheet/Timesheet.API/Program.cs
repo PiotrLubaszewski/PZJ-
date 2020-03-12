@@ -14,8 +14,14 @@ namespace Timesheet.Api
 
             using (var scope = host.Services.CreateScope())
             {
-                var db = scope.ServiceProvider.GetService<TimesheetContext>();
-                db.Database.Migrate();
+                try
+                {
+                    var db = scope.ServiceProvider.GetService<TimesheetContext>();
+                    db.Database.Migrate();
+                }
+                catch
+                {
+                }
             }
 
             host.Run();
