@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Mapster;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
@@ -47,6 +48,11 @@ namespace Timesheet.Core.Services
             };
         }
 
+        public async Task<ICollectionResult<AccountModel>> GetUsersAsync(OperationQuery operationQuery, CancellationToken cancellationToken)
+        {
+            return await _userManager.Users.ToCollectionResultAsync<ApplicationUser, AccountModel>(operationQuery, cancellationToken);
+        }
+
         public async Task<ICollectionResult<RoleModel>> GetRolesAsync(OperationQuery operationQuery, CancellationToken cancellationToken)
         {
             return await _roleManager.Roles.ToCollectionResultAsync<ApplicationRole, RoleModel>(operationQuery, cancellationToken);
@@ -54,10 +60,19 @@ namespace Timesheet.Core.Services
 
         public async Task<ICollectionResult<RoleModel>> GetUserRolesAsync(string userId, OperationQuery operationQuery, CancellationToken cancellationToken)
         {
+            if (Guid.TryParse(userId, out _)) new InvalidValidationException(nameof(userId).ToCamelCase(), $"Given {nameof(userId)} is invalid.");
+
             var user = await _userManager.FindByIdAsync(userId);
             var roles = await _userManager.GetRolesAsync(user);
 
             return await _roleManager.Roles.Where(x => roles.Contains(x.Name)).ToCollectionResultAsync<ApplicationRole, RoleModel>(operationQuery, cancellationToken);
+        }
+
+        public async Task<AccountModel> GetUserByIdAsync(string userId)
+        {
+            if (Guid.TryParse(userId, out _)) new InvalidValidationException(nameof(userId).ToCamelCase(), $"Given {nameof(userId)} is invalid.");
+
+            return (await _userManager.FindByIdAsync(userId)).Adapt<AccountModel>();
         }
 
         public async Task AddAccountAsync(AddAccountModel model)
@@ -84,6 +99,8 @@ namespace Timesheet.Core.Services
 
         public async Task AddUserRolesAsync(string userId, AddOrUpdateUserRolesModel model, CancellationToken cancellationToken)
         {
+            if (Guid.TryParse(userId, out _)) new InvalidValidationException(nameof(userId).ToCamelCase(), $"Given {nameof(userId)} is invalid.");
+
             var user = await _userManager.FindByIdAsync(userId);
             var roles = await _userManager.GetRolesAsync(user);
 
@@ -96,6 +113,8 @@ namespace Timesheet.Core.Services
 
         public async Task UpdateUserRolesAsync(string userId, AddOrUpdateUserRolesModel model, CancellationToken cancellationToken)
         {
+            if (Guid.TryParse(userId, out _)) new InvalidValidationException(nameof(userId).ToCamelCase(), $"Given {nameof(userId)} is invalid.");
+
             var user = await _userManager.FindByIdAsync(userId);
             var roles = await _userManager.GetRolesAsync(user);
 

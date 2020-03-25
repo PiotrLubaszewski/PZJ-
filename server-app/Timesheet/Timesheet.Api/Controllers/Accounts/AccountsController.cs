@@ -27,6 +27,15 @@
             _jwtSettings = jwtSettings;
         }
 
+        [Authorize(Roles = "Admin, Manager")]
+        [HttpGet]
+        public async Task<ApiResponse<ICollectionResult<AccountModel>>> GetUsersAsync([FromQuery] OperationQuery operationQuery, CancellationToken cancellationToken)
+        {
+            var result = await _accountsService.GetUsersAsync(operationQuery, cancellationToken);
+
+            return this.Result(result);
+        }
+
         [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ApiResponse> AddAccountAsync(AddAccountModel model)
@@ -34,6 +43,15 @@
             await _accountsService.AddAccountAsync(model);
 
             return this.Result();
+        }
+
+        [Authorize(Roles = "Admin, Manager")]
+        [HttpGet("{userId}")]
+        public async Task<ApiResponse<AccountModel>> GetUserByIdAsync(string userId)
+        {
+            var result = await _accountsService.GetUserByIdAsync(userId);
+
+            return this.Result(result);
         }
 
         [Authorize(Roles = "Admin")]
