@@ -8,6 +8,7 @@
     using Timesheet.Api.Infrastructure.Utils;
     using Timesheet.Api.Models;
     using Timesheet.Core.Exceptions;
+    using Timesheet.Core.Extensions;
 
     public class ExceptionMiddleware
     {
@@ -26,7 +27,7 @@
             }
             catch (InvalidValidationException ex)
             {
-                var dictionary = new Dictionary<string, IEnumerable<string>> { { ex.PropertyName, new List<string> { ex.Message } } };
+                var dictionary = new Dictionary<string, IEnumerable<string>> { { ex.PropertyName.ToCamelCase(), new List<string> { ex.Message } } };
                 var response = JsonUtils.SerializeObjectWithCamelCasePropertyNames(ApiResponse.CreateValidationErrorsResponse(dictionary));
 
                 context.Response.StatusCode = (int)HttpStatusCode.BadRequest;

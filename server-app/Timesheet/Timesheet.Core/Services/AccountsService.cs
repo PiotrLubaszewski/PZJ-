@@ -32,7 +32,7 @@ namespace Timesheet.Core.Services
         public async Task<JwtTokenModel> GetJwtTokenModelAsync(AuthorizeQuery model)
         {
             var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, false, false);
-            if (!result.Succeeded) throw new InvalidValidationException(nameof(model.UserName).ToCamelCase(), $"Given {nameof(model.UserName)} or {nameof(model.Password)} is invalid.");
+            if (!result.Succeeded) throw new InvalidValidationException(nameof(model.UserName).ToCamelCase(), $"'{nameof(model.UserName).ToPascalCase().InsertSpaces()}' or '{nameof(model.Password).ToPascalCase().InsertSpaces()}' is invalid.");
 
             var user = await _userManager.FindByNameAsync(model.UserName);
             var roles = await _userManager.GetRolesAsync(user);
@@ -60,7 +60,7 @@ namespace Timesheet.Core.Services
 
         public async Task<ICollectionResult<RoleModel>> GetUserRolesAsync(string userId, OperationQuery operationQuery, CancellationToken cancellationToken)
         {
-            if (Guid.TryParse(userId, out _)) new InvalidValidationException(nameof(userId).ToCamelCase(), $"Given {nameof(userId)} is invalid.");
+            if (!Guid.TryParse(userId, out _)) new InvalidValidationException(nameof(userId).ToCamelCase(), $"'{nameof(userId).ToPascalCase().InsertSpaces()}' is invalid.");
 
             var user = await _userManager.FindByIdAsync(userId);
             var roles = await _userManager.GetRolesAsync(user);
@@ -70,7 +70,7 @@ namespace Timesheet.Core.Services
 
         public async Task<AccountModel> GetUserByIdAsync(string userId)
         {
-            if (Guid.TryParse(userId, out _)) new InvalidValidationException(nameof(userId).ToCamelCase(), $"Given {nameof(userId)} is invalid.");
+            if (!Guid.TryParse(userId, out _)) new InvalidValidationException(nameof(userId).ToCamelCase(), $"'{nameof(userId).ToPascalCase().InsertSpaces()}' is invalid.");
 
             return (await _userManager.FindByIdAsync(userId)).Adapt<AccountModel>();
         }
@@ -78,10 +78,10 @@ namespace Timesheet.Core.Services
         public async Task AddAccountAsync(AddAccountModel model)
         {
             var userWithGivenEmail = await _userManager.FindByEmailAsync(model.Email);
-            if (userWithGivenEmail != null) throw new InvalidValidationException(nameof(model.Email).ToCamelCase(), $"Given {nameof(model.Email)} is taken.");
+            if (userWithGivenEmail != null) throw new InvalidValidationException(nameof(model.Email).ToCamelCase(), $"'{nameof(model.Email).ToPascalCase().InsertSpaces()}' is taken.");
 
             var userWithGivenUsername = await _userManager.FindByNameAsync(model.UserName);
-            if (userWithGivenUsername != null) throw new InvalidValidationException(nameof(model.UserName).ToCamelCase(), $"Given {nameof(model.UserName)} is taken.");
+            if (userWithGivenUsername != null) throw new InvalidValidationException(nameof(model.UserName).ToCamelCase(), $"'{nameof(model.UserName).ToPascalCase().InsertSpaces()}' is taken.");
 
             var user = new ApplicationUser
             {
@@ -99,7 +99,7 @@ namespace Timesheet.Core.Services
 
         public async Task AddUserRolesAsync(string userId, AddOrUpdateUserRolesModel model, CancellationToken cancellationToken)
         {
-            if (Guid.TryParse(userId, out _)) new InvalidValidationException(nameof(userId).ToCamelCase(), $"Given {nameof(userId)} is invalid.");
+            if (!Guid.TryParse(userId, out _)) new InvalidValidationException(nameof(userId).ToCamelCase(), $"'{nameof(userId).ToPascalCase().InsertSpaces()}' is invalid.");
 
             var user = await _userManager.FindByIdAsync(userId);
             var roles = await _userManager.GetRolesAsync(user);
@@ -113,7 +113,7 @@ namespace Timesheet.Core.Services
 
         public async Task UpdateUserRolesAsync(string userId, AddOrUpdateUserRolesModel model, CancellationToken cancellationToken)
         {
-            if (Guid.TryParse(userId, out _)) new InvalidValidationException(nameof(userId).ToCamelCase(), $"Given {nameof(userId)} is invalid.");
+            if (!Guid.TryParse(userId, out _)) new InvalidValidationException(nameof(userId).ToCamelCase(), $"'{nameof(userId).ToPascalCase().InsertSpaces()}' is invalid.");
 
             var user = await _userManager.FindByIdAsync(userId);
             var roles = await _userManager.GetRolesAsync(user);

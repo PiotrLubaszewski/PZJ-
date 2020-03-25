@@ -1,4 +1,7 @@
-﻿namespace Timesheet.Persistence
+﻿using Microsoft.EntityFrameworkCore;
+using Timesheet.Persistence.Entities;
+
+namespace Timesheet.Persistence
 {
     /// <summary>
     /// Partial class that contains only DbSets e.g
@@ -6,5 +9,6 @@
     /// </summary>
     public partial class TimesheetContext
     {
+        public DbSet<Salary> Salaries { get; set; }
     }
 }
