@@ -15,7 +15,7 @@ namespace Timesheet.Api.Validators.Salaries
         {
             RuleFor(x => x.Id).GreaterThan(0);
             RuleFor(x => x.Amount).InclusiveBetween(_minimalAmountValue, _maximalAmountValue);
-            RuleFor(x => x.MinimumTimeRate).InclusiveBetween(_minimalTimeRate, _maximalRate);
+            RuleFor(x => x.MinimalTimeRate).InclusiveBetween(_minimalTimeRate, _maximalRate);
             RuleFor(x => x.OvertimeRate).InclusiveBetween(_minimalRate, _maximalRate);
             RuleFor(x => x.FineRate).InclusiveBetween(_minimalRate, _maximalRate);
         }

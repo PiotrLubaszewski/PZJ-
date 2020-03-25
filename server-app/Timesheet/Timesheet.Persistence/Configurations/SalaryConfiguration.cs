@@ -13,7 +13,7 @@ namespace Timesheet.Persistence.Configurations
         {
             builder.Property(x => x.EndDateTime).IsRequired(false);
             builder.Property(x => x.Amount).IsRequired().HasColumnType("decimal(9, 2)");
-            builder.Property(x => x.MinimumTimeRate).IsRequired().HasColumnType("decimal(5, 2)");
+            builder.Property(x => x.MinimalTimeRate).IsRequired().HasColumnType("decimal(5, 2)");
             builder.Property(x => x.OvertimeRate).IsRequired().HasColumnType("decimal(5, 2)");
             builder.Property(x => x.FineRate).IsRequired().HasColumnType("decimal(5, 2)");
             builder.HasOne(x => x.User).WithMany(x => x.Salaries).HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.Cascade);

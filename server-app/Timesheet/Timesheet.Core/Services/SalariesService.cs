@@ -99,7 +99,7 @@ namespace Timesheet.Core.Services
                 StartDateTime = model.StartDateTime.Date,
                 EndDateTime = null,
                 Amount = model.Amount,
-                MinimumTimeRate = model.MinimumTimeRate,
+                MinimalTimeRate = model.MinimalTimeRate,
                 OvertimeRate = model.OvertimeRate,
                 FineRate = model.FineRate
             },
@@ -123,7 +123,7 @@ namespace Timesheet.Core.Services
             // TODO: Throw an exception if there are any worked hours with this salary
 
             salary.Amount = model.Amount;
-            salary.MinimumTimeRate = model.MinimumTimeRate;
+            salary.MinimalTimeRate = model.MinimalTimeRate;
             salary.OvertimeRate = model.OvertimeRate;
             salary.FineRate = model.FineRate;
 

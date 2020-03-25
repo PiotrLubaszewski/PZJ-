@@ -16,7 +16,7 @@ namespace Timesheet.Api.Validators.Salaries
         {
             RuleFor(x => x.StartDateTime).Must(x => x.Day == 1).WithMessage(x => $"'{nameof(x.StartDateTime).InsertSpaces()}' must contain date with 1st day of month.");
             RuleFor(x => x.Amount).InclusiveBetween(_minimalAmountValue, _maximalAmountValue);
-            RuleFor(x => x.MinimumTimeRate).InclusiveBetween(_minimalTimeRate, _maximalRate);
+            RuleFor(x => x.MinimalTimeRate).InclusiveBetween(_minimalTimeRate, _maximalRate);
             RuleFor(x => x.OvertimeRate).InclusiveBetween(_minimalRate, _maximalRate);
             RuleFor(x => x.FineRate).InclusiveBetween(_minimalRate, _maximalRate);
         }
