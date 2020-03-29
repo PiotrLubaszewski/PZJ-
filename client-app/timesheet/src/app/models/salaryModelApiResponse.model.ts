@@ -4,5 +4,5 @@ export class SalaryModelApiResponse {
   result: SalaryModel;
   statusCode: number;
   error:	string;
-  validationErrors:	string;
+  validationErrors:	any;
 }

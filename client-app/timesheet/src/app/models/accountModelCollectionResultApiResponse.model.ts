@@ -4,6 +4,6 @@ export class AccountModelICollectionResultApiResponse {
   result: AccountModelICollectionResult;
   statusCode: number;
   error: string;
-  validationErrors: string;
+  validationErrors: any;
 }
 

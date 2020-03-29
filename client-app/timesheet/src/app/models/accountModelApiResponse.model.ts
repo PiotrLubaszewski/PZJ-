@@ -4,5 +4,5 @@ export class AccountModelApiResponse {
   result: AccountModel;
   statusCode: number;
   error: string;
-  validationErrors: string;
+  validationErrors: any;
 }
