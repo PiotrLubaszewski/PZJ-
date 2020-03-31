@@ -1,6 +1,6 @@
-export class ApiResponse {
-  result:	string;
+export class ApiResponse<T> {
+  result: T;
   statusCode: number;
-  error:	string;
-  validationErrors: any;
+  error: string;
+  validationErrors: { [key: string]: string[] };
 }
