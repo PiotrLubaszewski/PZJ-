@@ -7,7 +7,7 @@
     {
         public AuthorizeQueryValidator()
         {
-            RuleFor(x => x.Username).NotNull().NotEmpty();
+            RuleFor(x => x.UserName).NotNull().NotEmpty();
             RuleFor(x => x.Password).NotNull().NotEmpty().MinimumLength(6);
         }
     }

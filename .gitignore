@@ -373,4 +373,9 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# Production appsettings
 /server-app/Timesheet/Timesheet.Api/appsettings.Production.json
+
+# Angular build catalog
+/client-app/timesheet/dist/*

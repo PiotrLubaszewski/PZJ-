@@ -6,6 +6,7 @@ namespace Timesheet.Api
     using Microsoft.Extensions.DependencyInjection;
     using Timesheet.Api.Infrastructure.Extensions.Startup;
     using Timesheet.Api.Infrastructure.Middlewares;
+    using Timesheet.Api.Models.Settings;
 
     public class Startup
     {
@@ -26,14 +27,27 @@ namespace Timesheet.Api
 
             // Add Swagger
             services.AddSwagger();
+
+            // Get JWT Settings and configure Authentication
+            var jwtSettings = Configuration.GetSection("JwtSettings").Get<JwtSettings>();
+            services.AddSingleton(jwtSettings);
+            services.AddJwtBearer(jwtSettings);
+
+            // Register all services (classes thats name ends with 'Service')
+            services.AddApplicationServices();
+
+            // Add Cors policy
+            services.AddCorsPolicy();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseSwaggerAndSwaggerUI();
             app.UseMiddleware<ExceptionMiddleware>();
+            app.UseCors("CorsPolicy");
             app.UseHttpsRedirection();
             app.UseRouting();
+            app.UseAuthentication();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {

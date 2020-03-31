@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using System.Net;
 
-    public class ApiResponse<T> : ApiResponse
+    public class ApiResponse<T>
     {
         public T Result { get; set; }
         public int StatusCode { get; set; }
@@ -11,7 +11,7 @@
         public IDictionary<string, IEnumerable<string>> ValidationErrors { get; set; }
     }
 
-    public class ApiResponse
+    public class ApiResponse : ApiResponse<string>
     {
         public static ApiResponse<string> CreateValidationErrorsResponse(IDictionary<string, IEnumerable<string>> errors)
         {
@@ -46,6 +46,14 @@
             {
                 StatusCode = (int)HttpStatusCode.OK,
                 Result = result
+            };
+        }
+
+        public static ApiResponse CreateResultResponse()
+        {
+            return new ApiResponse
+            {
+                StatusCode = (int)HttpStatusCode.OK
             };
         }
     }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Timesheet.Persistence;
 
 namespace Timesheet.Persistence.Migrations
 {
     [DbContext(typeof(TimesheetContext))]
-    partial class TimesheetContextModelSnapshot : ModelSnapshot
+    [Migration("20200312165515_FirstAndLastNamesWithMaxLength")]
+    partial class FirstAndLastNamesWithMaxLength
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -225,44 +227,6 @@ namespace Timesheet.Persistence.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("Timesheet.Persistence.Entities.Salary", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(9, 2)");
-
-                    b.Property<DateTime>("CreatedDateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("EndDateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<decimal>("FineRate")
-                        .HasColumnType("decimal(5, 2)");
-
-                    b.Property<decimal>("MinimalTimeRate")
-                        .HasColumnType("decimal(5, 2)");
-
-                    b.Property<decimal>("OvertimeRate")
-                        .HasColumnType("decimal(5, 2)");
-
-                    b.Property<DateTime>("StartDateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Salaries");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.HasOne("Timesheet.Persistence.Entities.Identities.ApplicationRole", null)
@@ -309,15 +273,6 @@ namespace Timesheet.Persistence.Migrations
                 {
                     b.HasOne("Timesheet.Persistence.Entities.Identities.ApplicationUser", null)
                         .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Timesheet.Persistence.Entities.Salary", b =>
-                {
-                    b.HasOne("Timesheet.Persistence.Entities.Identities.ApplicationUser", "User")
-                        .WithMany("Salaries")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
