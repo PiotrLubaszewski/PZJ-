@@ -29,6 +29,7 @@ namespace Timesheet.Core.Services
             _roleManager = roleManager;
         }
 
+        #region Authorization
         public async Task<JwtTokenModel> GetJwtTokenModelAsync(AuthorizeQuery model)
         {
             var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, false, false);
@@ -47,25 +48,19 @@ namespace Timesheet.Core.Services
                 Roles = roles
             };
         }
+        #endregion
 
-        public async Task<ICollectionResult<AccountModel>> GetUsersAsync(OperationQuery operationQuery, CancellationToken cancellationToken)
-        {
-            return await _userManager.Users.ToCollectionResultAsync<ApplicationUser, AccountModel>(operationQuery, cancellationToken);
-        }
-
+        #region Roles
         public async Task<ICollectionResult<RoleModel>> GetRolesAsync(OperationQuery operationQuery, CancellationToken cancellationToken)
         {
             return await _roleManager.Roles.ToCollectionResultAsync<ApplicationRole, RoleModel>(operationQuery, cancellationToken);
         }
+        #endregion
 
-        public async Task<ICollectionResult<RoleModel>> GetUserRolesAsync(string userId, OperationQuery operationQuery, CancellationToken cancellationToken)
+        #region Users
+        public async Task<ICollectionResult<AccountModel>> GetUsersAsync(OperationQuery operationQuery, CancellationToken cancellationToken)
         {
-            if (!Guid.TryParse(userId, out _)) new InvalidValidationException(nameof(userId).ToCamelCase(), $"'{nameof(userId).ToPascalCase().InsertSpaces()}' is invalid.");
-
-            var user = await _userManager.FindByIdAsync(userId);
-            var roles = await _userManager.GetRolesAsync(user);
-
-            return await _roleManager.Roles.Where(x => roles.Contains(x.Name)).ToCollectionResultAsync<ApplicationRole, RoleModel>(operationQuery, cancellationToken);
+            return await _userManager.Users.ToCollectionResultAsync<ApplicationUser, AccountModel>(operationQuery, cancellationToken);
         }
 
         public async Task<AccountModel> GetUserByIdAsync(string userId)
@@ -75,7 +70,7 @@ namespace Timesheet.Core.Services
             return (await _userManager.FindByIdAsync(userId)).Adapt<AccountModel>();
         }
 
-        public async Task AddAccountAsync(AddAccountModel model)
+        public async Task AddUserAsync(AddAccountModel model)
         {
             var userWithGivenEmail = await _userManager.FindByEmailAsync(model.Email);
             if (userWithGivenEmail != null) throw new InvalidValidationException(nameof(model.Email).ToCamelCase(), $"'{nameof(model.Email).ToPascalCase().InsertSpaces()}' is taken.");
@@ -95,6 +90,19 @@ namespace Timesheet.Core.Services
 
             var result = await _userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded) throw new InvalidOperationException("An error ocurred during creating new account.");
+        }
+        #endregion
+
+        #region User Roles
+
+        public async Task<ICollectionResult<RoleModel>> GetUserRolesAsync(string userId, OperationQuery operationQuery, CancellationToken cancellationToken)
+        {
+            if (!Guid.TryParse(userId, out _)) new InvalidValidationException(nameof(userId).ToCamelCase(), $"'{nameof(userId).ToPascalCase().InsertSpaces()}' is invalid.");
+
+            var user = await _userManager.FindByIdAsync(userId);
+            var roles = await _userManager.GetRolesAsync(user);
+
+            return await _roleManager.Roles.Where(x => roles.Contains(x.Name)).ToCollectionResultAsync<ApplicationRole, RoleModel>(operationQuery, cancellationToken);
         }
 
         public async Task AddUserRolesAsync(string userId, AddOrUpdateUserRolesModel model, CancellationToken cancellationToken)
@@ -127,5 +135,6 @@ namespace Timesheet.Core.Services
             var result = await _userManager.AddToRolesAsync(user, rolesNames);
             if (!result.Succeeded) throw new InvalidOperationException("An error ocurred during adding roles.");
         }
+        #endregion
     }
 }

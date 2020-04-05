@@ -17,5 +17,7 @@ namespace Timesheet.Core.Interfaces.Services
 
         // User Projects
         Task<ICollectionResult<ProjectModel>> GetUserProjectsAsync(string userId, OperationQuery operationQuery, CancellationToken cancellationToken);
+        Task AddUserProjectAsync(string userId, AddUserProjectModel model, CancellationToken cancellationToken);
+        Task DeleteUserProjectAsync(string userId, int projectId, CancellationToken cancellationToken);
     }
 }

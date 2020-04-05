@@ -12,6 +12,7 @@
     using Timesheet.Core.Models.Accounts;
     using Timesheet.Core.Models.Collections.Interfaces;
     using Timesheet.Core.Models.Helpers;
+    using Timesheet.Core.Models.Projects;
     using Timesheet.Core.Models.Queries.Accounts;
     using Timesheet.Core.Models.Salaries;
 
@@ -21,12 +22,14 @@
     {
         private readonly IAccountsService _accountsService;
         private readonly ISalariesService _salariesService;
+        private readonly IProjectsService _projectsService;
         private readonly JwtSettings _jwtSettings;
 
-        public AccountsController(IAccountsService accountsService, ISalariesService salariesService, JwtSettings jwtSettings)
+        public AccountsController(IAccountsService accountsService, ISalariesService salariesService, IProjectsService projectsService, JwtSettings jwtSettings)
         {
             _accountsService = accountsService;
             _salariesService = salariesService;
+            _projectsService = projectsService;
             _jwtSettings = jwtSettings;
         }
 
@@ -45,7 +48,7 @@
         [HttpPost]
         public async Task<ApiResponse> AddAccountAsync(AddAccountModel model)
         {
-            await _accountsService.AddAccountAsync(model);
+            await _accountsService.AddUserAsync(model);
 
             return this.Result();
         }
@@ -163,6 +166,35 @@
         public async Task<ApiResponse> DeleteSalaryAsync(string userId, int salaryId, CancellationToken cancellationToken)
         {
             await _salariesService.DeleteSalaryAsync(userId, salaryId, cancellationToken);
+
+            return this.Result();
+        }
+        #endregion
+
+        #region Projects
+        [Authorize(Roles = "Admin, Manager")]
+        [HttpGet("{userId}/projects")]
+        public async Task<ApiResponse<ICollectionResult<ProjectModel>>> GetAsync(string userId, [FromQuery] OperationQuery operationQuery, CancellationToken cancellationToken)
+        {
+            var result = await _projectsService.GetUserProjectsAsync(userId, operationQuery, cancellationToken);
+
+            return this.Result(result);
+        }
+
+        [Authorize(Roles = "Admin, Manager")]
+        [HttpPost("{userId}/projects")]
+        public async Task<ApiResponse> PostAsync(string userId, [FromBody] AddUserProjectModel model, CancellationToken cancellationToken)
+        {
+            await _projectsService.AddUserProjectAsync(userId, model, cancellationToken);
+
+            return this.Result();
+        }
+
+        [Authorize(Roles = "Admin, Manager")]
+        [HttpDelete("{userId}/projects/{projectId}")]
+        public async Task<ApiResponse> DeleteAsync(string userId, int projectId, CancellationToken cancellationToken)
+        {
+            await _projectsService.DeleteUserProjectAsync(userId, projectId, cancellationToken);
 
             return this.Result();
         }

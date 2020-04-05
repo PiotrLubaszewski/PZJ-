@@ -1,6 +1,7 @@
 ﻿using Mapster;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Timesheet.Core.Exceptions;
@@ -42,6 +43,7 @@ namespace Timesheet.Core.Services
         public async Task AddProjectAsync(AddProjectModel model, CancellationToken cancellationToken)
         {
             var project = model.Adapt<Project>();
+            project.CreatedDateTime = DateTime.Now;
 
             await _context.AddAsync(project, cancellationToken);
             await _context.SaveChangesAsync();
@@ -82,7 +84,55 @@ namespace Timesheet.Core.Services
             if (!Guid.TryParse(userId, out var guid) || !await _context.Users.AnyAsync(x => x.Id == guid, cancellationToken))
                 throw new InvalidValidationException(nameof(userId), $"'{nameof(userId).ToPascalCase().InsertSpaces()}' is invalid.");
 
-            return await _context.Projects.ToCollectionResultAsync<Project, ProjectModel>(operationQuery, cancellationToken);
+            return await _context.UserProjects
+                .Include(x => x.Project)
+                .Select(x => new ProjectModel
+                {
+                     Id = x.Project.Id,
+                     Name = x.Project.Name.ToString()
+                })
+                .ToCollectionResultAsync(operationQuery, cancellationToken);
+        }
+
+        public async Task AddUserProjectAsync(string userId, AddUserProjectModel model, CancellationToken cancellationToken)
+        {
+            if (!Guid.TryParse(userId, out var guid) || !await _context.Users.AnyAsync(x => x.Id == guid, cancellationToken))
+                throw new InvalidValidationException(nameof(userId), $"'{nameof(userId).ToPascalCase().InsertSpaces()}' is invalid.");
+
+            if (!await _context.Projects.AnyAsync(x => x.Id == model.ProjectId))
+                throw new InvalidOperationException($"Project with given '{nameof(model.ProjectId).ToPascalCase().InsertSpaces()}' does not exist.");
+
+            if (await _context.UserProjects.AnyAsync(x => x.UserId == guid && x.ProjectId == model.ProjectId))
+                throw new InvalidOperationException("This user is already assigned to this project.");
+
+            var userProject = new UserProject
+            {
+                CreatedDateTime = DateTime.Now,
+                UserId = guid,
+                ProjectId = model.ProjectId
+            };
+
+            await _context.AddAsync(userProject, cancellationToken);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteUserProjectAsync(string userId, int projectId, CancellationToken cancellationToken)
+        {
+            if (!Guid.TryParse(userId, out var guid) || !await _context.Users.AnyAsync(x => x.Id == guid, cancellationToken))
+                throw new InvalidValidationException(nameof(userId), $"'{nameof(userId).ToPascalCase().InsertSpaces()}' is invalid.");
+
+            if (projectId < 1)
+                throw new InvalidValidationException(nameof(projectId), $"'{nameof(projectId).ToPascalCase().InsertSpaces()}' is invalid.");
+
+            var userProject = await _context.UserProjects.SingleOrDefaultAsync(x => x.UserId == guid && x.ProjectId == projectId, cancellationToken);
+
+            if (userProject == null)
+                throw new InvalidOperationException($"User is not assigned to this project.");
+
+            // TODO: Check if there are any hours added with this project
+
+            _context.Remove(userProject);
+            await _context.SaveChangesAsync();
         }
         #endregion
     }
