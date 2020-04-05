@@ -5,30 +5,28 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { LoginComponent } from './login/login.component';
-import { MaterialModule } from './material/material.module';
+import { MaterialModule } from './shared/material/material.module';
 import { ReactiveFormsModule } from '@angular/forms';
-import { SidebarComponent } from './sidebar/sidebar.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CoreModule } from './core/core.module';
 import { AccountsModule } from './accounts/accounts.module';
+import { SharedModule } from './shared/shared.module';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
-    SidebarComponent
   ],
   imports: [
     HttpClientModule,
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule,
     MaterialModule,
+    BrowserAnimationsModule,
     ReactiveFormsModule,
     CoreModule,
-    AccountsModule
+    AccountsModule,
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent]
