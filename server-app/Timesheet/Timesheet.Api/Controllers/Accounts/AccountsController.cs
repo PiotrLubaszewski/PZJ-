@@ -100,15 +100,6 @@
             return this.Result();
         }
 
-        [Authorize(Roles = "Admin")]
-        [HttpGet("roles")]
-        public async Task<ApiResponse<ICollectionResult<RoleModel>>> GetRolesAsync([FromQuery] OperationQuery operationQuery, CancellationToken cancellationToken)
-        {
-            var result = await _accountsService.GetRolesAsync(operationQuery, cancellationToken);
-
-            return this.Result(result);
-        }
-
         #endregion
 
         #region Salaries

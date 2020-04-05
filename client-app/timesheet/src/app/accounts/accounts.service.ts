@@ -67,7 +67,7 @@ export class AccountsService {
     { pageSize?: string; currentPage?: string; sort?: string; } = {}):
     Observable<ApiResponse<CollectionResult<RoleModel>>> {
       return this.http.get<ApiResponse<CollectionResult<RoleModel>>>(
-        '/accounts/roles?PageSize=' + pageSize +
+        '/roles?PageSize=' + pageSize +
         '&CurrentPage=' + currentPage +
         '&Sort=' + sort);
   }
