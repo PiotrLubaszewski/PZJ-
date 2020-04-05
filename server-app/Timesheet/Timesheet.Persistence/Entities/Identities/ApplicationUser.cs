@@ -4,7 +4,7 @@
     using System;
     using System.Collections.Generic;
 
-    public class ApplicationUser : IdentityUser<Guid>
+    public class ApplicationUser : IdentityUser<Guid>, IEntity<Guid>
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }

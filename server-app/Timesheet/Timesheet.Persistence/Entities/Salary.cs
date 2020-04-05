@@ -3,7 +3,7 @@ using Timesheet.Persistence.Entities.Identities;
 
 namespace Timesheet.Persistence.Entities
 {
-    public class Salary
+    public class Salary : IEntity<int>
     {
         public int Id { get; set; }
         public Guid UserId { get; set; }
