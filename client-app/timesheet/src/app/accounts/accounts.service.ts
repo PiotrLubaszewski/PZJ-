@@ -13,7 +13,7 @@ import { environment } from '../../environments/environment';
 })
 export class AccountsService {
 
-  origin = !environment.production ? 'http://apitimesheetzpi.azurewebsites.net' : '';
+  origin = !environment.production ? 'https://apitimesheetzpi.azurewebsites.net' : '';
 
   constructor(private http: HttpClient) { }
 

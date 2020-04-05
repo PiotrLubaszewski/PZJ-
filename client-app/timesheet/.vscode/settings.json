@@ -2,5 +2,7 @@
   "appService.zipIgnorePattern": [
     "node_modules{,/**}",
     ".vscode{,/**}"
-  ]
+  ],
+  "appService.defaultWebAppToDeploy": "/subscriptions/71eb4b45-4dd0-4706-95c1-ef162e59900d/resourceGroups/timesheetwin/providers/Microsoft.Web/sites/timesheetzpi",
+  "appService.deploySubpath": "dist\\timesheet"
 }

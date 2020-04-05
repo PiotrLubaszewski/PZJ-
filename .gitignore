@@ -379,3 +379,4 @@ Thumbs.db
 
 # Angular build catalog
 /client-app/timesheet/dist/*
+/client-app/timesheet/dist/timesheet/*
