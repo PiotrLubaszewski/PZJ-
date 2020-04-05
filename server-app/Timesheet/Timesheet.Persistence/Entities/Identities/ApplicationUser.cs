@@ -6,10 +6,12 @@
 
     public class ApplicationUser : IdentityUser<Guid>, IEntity<Guid>
     {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
         public DateTime CreatedDateTime { get; set; }
 
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+
         public ICollection<Salary> Salaries { get; set; }
+        public ICollection<UserProject> UserProjects { get; set; }
     }
 }

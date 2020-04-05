@@ -6,8 +6,9 @@ namespace Timesheet.Persistence.Entities
     public class Salary : IEntity<int>
     {
         public int Id { get; set; }
-        public Guid UserId { get; set; }
         public DateTime CreatedDateTime { get; set; }
+
+        public Guid UserId { get; set; }
         public DateTime StartDateTime { get; set; }
         public DateTime? EndDateTime { get; set; }
         public decimal Amount { get; set; }
