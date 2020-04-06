@@ -52,7 +52,7 @@
         /// <summary>
         /// Returns all available accounts.
         /// Can be paginated.
-        /// Needed role: 'Admin', 'Manager'.
+        /// Needed role: 'Admin' or 'Manager'.
         /// </summary>
         [Authorize(Roles = "Admin, Manager")]
         [HttpGet]
@@ -65,7 +65,7 @@
 
         /// <summary>
         /// Returns specific account.
-        /// Needed role: 'Admin', 'Manager'.
+        /// Needed role: 'Admin' or 'Manager'.
         /// </summary>
         [Authorize(Roles = "Admin, Manager")]
         [HttpGet("{userId}")]
@@ -78,7 +78,7 @@
 
         /// <summary>
         /// Adds new account.
-        /// Needed role: 'Admin'
+        /// Needed role: 'Admin'.
         /// </summary>
         [Authorize(Roles = "Admin")]
         [HttpPost]
@@ -136,7 +136,7 @@
         /// <summary>
         /// Returns all salaries assigned to specific account.
         /// Can be paginated.
-        /// Needed role: 'Admin', 'Manager'.
+        /// Needed role: 'Admin' or 'Manager'.
         /// </summary>
         [Authorize(Roles = "Admin, Manager")]
         [HttpGet("{userId}/salaries")]
@@ -149,7 +149,7 @@
 
         /// <summary>
         /// Returns specific salary assigned to specific account.
-        /// Needed role: 'Admin', 'Manager'.
+        /// Needed role: 'Admin' or 'Manager'.
         /// </summary>
         [Authorize(Roles = "Admin, Manager")]
         [HttpGet("{userId}/salaries/{salaryId}")]
@@ -162,7 +162,7 @@
 
         /// <summary>
         /// Returns current salary assigned to specific account.
-        /// Needed role: 'Admin', 'Manager'.
+        /// Needed role: 'Admin' or 'Manager'.
         /// </summary>
         [Authorize(Roles = "Admin, Manager")]
         [HttpGet("{userId}/salaries/current")]
@@ -175,7 +175,7 @@
 
         /// <summary>
         /// Returns last salary assigned to specific account.
-        /// Needed role: 'Admin', 'Manager'.
+        /// Needed role: 'Admin' or 'Manager'.
         /// </summary>
         [Authorize(Roles = "Admin, Manager")]
         [HttpGet("{userId}/salaries/last")]
@@ -188,7 +188,7 @@
 
         /// <summary>
         /// Adds new salary to specific account.
-        /// Needed role: 'Admin', 'Manager'.
+        /// Needed role: 'Admin' or 'Manager'.
         /// </summary>
         [Authorize(Roles = "Admin, Manager")]
         [HttpPost("{userId}/salaries")]
@@ -201,7 +201,7 @@
 
         /// <summary>
         /// Updates specific salary assigned to specific account.
-        /// Needed role: 'Admin', 'Manager'.
+        /// Needed role: 'Admin' or 'Manager'.
         /// </summary>
         [Authorize(Roles = "Admin, Manager")]
         [HttpPut("{userId}/salaries")]
@@ -214,7 +214,7 @@
 
         /// <summary>
         /// Deletes specific salary assigned to specific account.
-        /// Needed role: 'Admin', 'Manager'.
+        /// Needed role: 'Admin' or 'Manager'.
         /// </summary>
         [Authorize(Roles = "Admin, Manager")]
         [HttpDelete("{userId}/salaries/{salaryId}")]
@@ -230,7 +230,7 @@
         /// <summary>
         /// Returns all projects assigned to specific account.
         /// Can be paginated.
-        /// Needed role: 'Admin', 'Manager'.
+        /// Needed role: 'Admin' or 'Manager'.
         /// </summary>
         [Authorize(Roles = "Admin, Manager")]
         [HttpGet("{userId}/projects")]
@@ -243,7 +243,7 @@
 
         /// <summary>
         /// Adds new project to specific account.
-        /// Needed role: 'Admin', 'Manager'.
+        /// Needed role: 'Admin' or 'Manager'.
         /// </summary>
         [Authorize(Roles = "Admin, Manager")]
         [HttpPost("{userId}/projects")]
@@ -256,7 +256,7 @@
 
         /// <summary>
         /// Deletes specific project assigned to specific account.
-        /// Needed role: 'Admin', 'Manager'.
+        /// Needed role: 'Admin' or 'Manager'.
         /// </summary>
         [Authorize(Roles = "Admin, Manager")]
         [HttpDelete("{userId}/projects/{projectId}")]
