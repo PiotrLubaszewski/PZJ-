@@ -22,6 +22,11 @@ namespace Timesheet.Api.Controllers.Accounts
             _accountsService = accountsService;
         }
 
+        /// <summary>
+        /// Returns all available roles.
+        /// Can be paginated.
+        /// Needed role: 'Admin'.
+        /// </summary>
         [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<ApiResponse<ICollectionResult<RoleModel>>> GetRolesAsync([FromQuery] OperationQuery operationQuery, CancellationToken cancellationToken)
