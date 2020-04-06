@@ -34,8 +34,8 @@ export class LoginComponent implements OnInit {
     };
 
     this.accountsService.authorize(user).subscribe(
-      res => {
-        sessionStorage.setItem('user', res.result);
+      response => {
+        sessionStorage.setItem('user', response.result);
       },
       err => console.error(err)
     );
