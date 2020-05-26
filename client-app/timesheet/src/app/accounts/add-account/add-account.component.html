@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="container-form">
+    <mat-card class="form-card">
+    <form [formGroup]="addAccountForm" (ngSubmit)="submitForm()" >
+      <mat-form-field class="input-row">
+        <input matInput type="text" formControlName="username" placeholder="Username">
+        <mat-error *ngIf="addAccountForm.get('username').errors">Username is required.</mat-error>
+      </mat-form-field>
+      <mat-form-field class="input-row">
+        <input matInput type="password" formControlName="password" placeholder="Password">
+        <mat-error *ngIf="addAccountForm.get('password').errors.required">Password is required.</mat-error>
+        <mat-error *ngIf="addAccountForm.get('password').errors.minlength">Password must have 6 characters.</mat-error>
+      </mat-form-field>
+      <mat-form-field class="input-row">
+        <input matInput type="text" formControlName="email" placeholder="Email">
+        <mat-error *ngIf="addAccountForm.get('email').errors.required">Email is required.</mat-error>
+        <mat-error *ngIf="addAccountForm.get('email').errors.email">Email is invalid.</mat-error>
+      </mat-form-field>
+      <mat-form-field class="input-row">
+        <input matInput type="text" formControlName="firstName" placeholder="First name">
+        <mat-error *ngIf="addAccountForm.get('firstName').errors">First name is required.</mat-error>
+      </mat-form-field>
+      <mat-form-field class="input-row">
+        <input matInput type="text" formControlName="lastName" placeholder="Last name">
+        <mat-error *ngIf="addAccountForm.get('lastName').errors">Last name is required.</mat-error>
+      </mat-form-field>
+      <button mat-raised-button color="primary" class="mt-10">Add</button>
+      <button mat-raised-button color="warn" class="ml-10 mt-10" routerLink="/accounts">Cancel</button>
+    </form>
+  </mat-card>
+  </div>
+</div>

@@ -1,18 +1,17 @@
 <mat-toolbar color="primary">
-  <span>Timesheet</span>
+  <span><a routerLink="/home" class="home-link">Timesheet</a></span>
   <span class="spacer"></span>
-  <!-- <button mat-button [matMenuTriggerFor]="menu"><mat-icon>account_circle</mat-icon></button> -->
-  <!-- <mat-menu #menu="matMenu"> -->
-    <!-- <div *ngIf="!(readLocalStorageValue('token') && readLocalStorageValue('userId')) else Logout">
-      <a [routerLink]="['login']" style="color: white; !important">
-        <button mat-button>Login</button>
-      </a>
-    </div> -->
-    <!-- <ng-template #Logout>
-      <a style="color: white; !important">
-        <button mat-button>Logout</button></a>
-    </ng-template> -->
 
-  <!-- </mat-menu> -->
+  <button mat-button [matMenuTriggerFor]="adminMenu" *ngIf="authService.isAuthenticated() && authService.isAdmin()">Admin Menu</button>
+  <mat-menu #adminMenu="matMenu">
+    <button mat-menu-item routerLink="/accounts">Accounts</button>
+  </mat-menu>
+
+  <button mat-button [matMenuTriggerFor]="managerMenu" *ngIf="authService.isAuthenticated() && authService.isManager() && !authService.isAdmin()">Manager Menu</button>
+  <mat-menu #managerMenu="matMenu">
+    <button mat-menu-item routerLink="/accounts">Accounts</button>
+  </mat-menu>
+
+  <button mat-button routerLink="/logout" *ngIf="authService.isAuthenticated()">Logout</button>
 </mat-toolbar>
 <ng-content></ng-content>

@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 export class AccountsComponent implements OnInit {
 
   accounts: AccountModel[] = [];
-  displayedColumns: string[] = ['id', 'userName', 'email', 'firstName', 'lastName'];
+  displayedColumns: string[] = ['id', 'userName', 'email', 'firstName', 'lastName', 'actions'];
 
   constructor(private accountsService: AccountsService, private router: Router) { }
 
@@ -26,9 +26,4 @@ export class AccountsComponent implements OnInit {
   ngOnInit() {
     this.fetchAccounts();
   }
-
-  onAddClicked() {
-    this.router.navigateByUrl('accounts/add')
-  }
-
 }

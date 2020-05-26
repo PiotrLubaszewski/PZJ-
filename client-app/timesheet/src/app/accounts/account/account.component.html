@@ -1,26 +1,184 @@
-<div class="container">
-  <div class="container-form">
-    <mat-card class="form-card">
-    <form>
-      <mat-form-field class="input-row">
-        <mat-label for="">Username</mat-label>
-        <input matInput type="text" name="" id="">
-      </mat-form-field>
-      <mat-form-field class="input-row">
-        <mat-label for="">Email</mat-label>
-        <input matInput type="text" name="" id="">
-      </mat-form-field>
-      <mat-form-field class="input-row">
-        <mat-label for="">First Name</mat-label>
-        <input matInput type="text" name="" id="">
-      </mat-form-field>
-      <mat-form-field class="input-row">
-        <mat-label for="">Last Name</mat-label>
-        <input matInput type="text" name="" id="">
-      </mat-form-field>
-      <button mat-raised-button color="primary">Add</button>
-
-    </form>
+<div class="row m-0 w-100 pl-3 pr-3">
+  <mat-card class="form-card w-100" *ngIf="account">
+    <h2>Account data</h2>
+    <mat-divider></mat-divider>
+    <div class="row w-100 mt-4">
+      <div class="col-md-2">
+        <p>Username:</p>
+      </div>
+      <div class="col-md-10">
+        <p>
+          <strong>{{ account.userName }}</strong>
+        </p>
+      </div>
+    </div>
+    <div class="row w-100">
+      <div class="col-md-2">
+        <p>Email:</p>
+      </div>
+      <div class="col-md-10">
+        <p>
+          <strong>{{ account.email }}</strong>
+        </p>
+      </div>
+    </div>
+    <div class="row w-100">
+      <div class="col-md-2">
+        <p>First name:</p>
+      </div>
+      <div class="col-md-10">
+        <p>
+          <strong>{{ account.firstName }}</strong>
+        </p>
+      </div>
+    </div>
+    <div class="row w-100">
+      <div class="col-md-2">
+        <p>Last name:</p>
+      </div>
+      <div class="col-md-10">
+        <p>
+          <strong>{{ account.lastName }}</strong>
+        </p>
+      </div>
+    </div>
   </mat-card>
+</div>
+<div class="row m-0 w-100 mt-3 pl-3 pr-3" *ngIf="authService.isAdmin()">
+  <div class="col-md-8 m-0 p-0 pr-3">
+    <mat-card class="form-card w-100" *ngIf="userRoles">
+      <h2>Roles</h2>
+      <mat-divider></mat-divider>
+      <div class="table-container mt-4">
+        <table
+          mat-table
+          [dataSource]="userRoles"
+          class="mat-elevation-z0 w-100"
+        >
+          <!-- Position Column -->
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef>ID</th>
+            <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+          </ng-container>
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Role name</th>
+            <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Actions</th>
+            <td mat-cell *matCellDef="let element">
+              <button
+                mat-flat-button
+                color="warn"
+                (click)="onDeleteRole(element.id)"
+              >
+                Delete
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+      </div>
+    </mat-card>
+  </div>
+  <div class="col-md-4 m-0 p-0">
+    <mat-card class="form-card w-100 clearfix" *ngIf="allRoles && userRoles">
+      <h2>Add role</h2>
+      <mat-divider></mat-divider>
+      <mat-form-field class="w-100 mt-4">
+        <mat-label>Select role</mat-label>
+        <mat-select [(value)]="selectedRoleId">
+          <mat-option
+            *ngFor="let role of getRolesSelectList()"
+            [value]="role.id"
+          >
+            {{ role.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button
+        type="button"
+        mat-flat-button
+        color="primary"
+        class="float-right"
+        (click)="onAddRoleClick()"
+      >
+        Add
+      </button>
+    </mat-card>
+  </div>
+</div>
+<div class="row m-0 w-100 mt-3 pl-3 pr-3" *ngIf="authService.isAdmin() || authService.isManager()">
+  <div class="col-md-8 m-0 p-0 pr-3">
+    <mat-card class="form-card w-100" *ngIf="userProjects">
+      <h2>Projects</h2>
+      <mat-divider></mat-divider>
+      <div class="table-container mt-4">
+        <table
+          mat-table
+          [dataSource]="userProjects"
+          class="mat-elevation-z0 w-100"
+        >
+          <!-- Position Column -->
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef>ID</th>
+            <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+          </ng-container>
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Project name</th>
+            <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Actions</th>
+            <td mat-cell *matCellDef="let element">
+              <button
+                mat-flat-button
+                color="warn"
+                (click)="onDeleteProjectClick(element.id)"
+              >
+                Delete
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+      </div>
+    </mat-card>
+  </div>
+  <div class="col-md-4 m-0 p-0">
+    <mat-card class="form-card w-100 clearfix" *ngIf="allRoles && userRoles">
+      <h2>Add project</h2>
+      <mat-divider></mat-divider>
+      <mat-form-field class="w-100 mt-4">
+        <mat-label>Select project</mat-label>
+        <mat-select [(value)]="selectedProjectId">
+          <mat-option
+            *ngFor="let project of getProjectsSelectList()"
+            [value]="project.id"
+          >
+            {{ project.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button
+        type="button"
+        mat-flat-button
+        color="primary"
+        class="float-right"
+        (click)="onAddProjectClick()"
+      >
+        Add
+      </button>
+    </mat-card>
   </div>
 </div>

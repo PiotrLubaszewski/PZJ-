@@ -1,17 +1,19 @@
 <div class="signin__form">
   <mat-card class="example-card">
     <mat-card-header>
-      <mat-card-title > Login</mat-card-title>
+      <mat-card-title>Login</mat-card-title>
       <mat-card-subtitle>Use your company account credentials to login to hour evidence system</mat-card-subtitle>
     </mat-card-header>
     <mat-divider></mat-divider>
   <mat-card-content>
       <form [formGroup]="signinForm" (ngSubmit)="submitForm(signinForm)" class="login__form">
     <mat-form-field class="signin__form-field">
-      <input matInput formControlName="email" placeholder="Email" />
+      <input matInput formControlName="email" placeholder="Username" />
+      <mat-error *ngIf="signinForm.get('email').errors">Username is required.</mat-error>
     </mat-form-field>
     <mat-form-field class="signin__form-field">
       <input matInput formControlName="password" type="password" placeholder="Password" />
+      <mat-error *ngIf="signinForm.get('password').errors">Password is required.</mat-error>
     </mat-form-field>
     <div class="btn__row">
       <button mat-raised-button type="submit" class="btn">

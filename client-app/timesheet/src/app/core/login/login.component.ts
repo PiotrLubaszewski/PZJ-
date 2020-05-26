@@ -1,9 +1,11 @@
+import { AuthService } from './../../shared/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { AccountsService } from 'src/app/accounts/accounts.service';
+import { MatSnackBar } from '@angular/material';
 
 
 @Component({
@@ -16,7 +18,9 @@ export class LoginComponent implements OnInit {
   signinForm: FormGroup;
   constructor(
     private accountsService: AccountsService,
-    private router: Router) {
+    private authService: AuthService,
+    private router: Router,
+    private snackBar: MatSnackBar) {
     this.signinForm = new FormGroup({
       email: new FormControl('', Validators.required),
       password: new FormControl('', Validators.required)
@@ -24,10 +28,16 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    if (this.authService.isAuthenticated()) {
+      this.router.navigateByUrl('/home');
+    }
   }
 
   submitForm(form) {
+    if (!this.signinForm.valid) {
+      return;
+    }
+
     const user = {
       userName: form.value.email,
       password: form.value.password
@@ -35,8 +45,9 @@ export class LoginComponent implements OnInit {
 
     this.accountsService.authorize(user).subscribe(
       response => {
-        sessionStorage.setItem('user', response.result);
+        this.authService.authenticate(response.result);
         this.router.navigateByUrl('accounts');
+        this.snackBar.open('You have been logged in.', 'Close');
       },
       err => console.error(err)
     );
