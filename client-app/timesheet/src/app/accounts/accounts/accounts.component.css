@@ -1,3 +1,22 @@
-table {
+.container {
   width: 100%;
+  margin: auto;
+}
+
+table {
+  width: 95%;
+  align-self: center;
+}
+
+.table-container {
+  display: flex;
+  justify-content: center;
+}
+
+.button-container {
+  margin-top: 3vh;
+  width: 97%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
 }

@@ -36,6 +36,7 @@ export class LoginComponent implements OnInit {
     this.accountsService.authorize(user).subscribe(
       response => {
         sessionStorage.setItem('user', response.result);
+        this.router.navigateByUrl('accounts');
       },
       err => console.error(err)
     );

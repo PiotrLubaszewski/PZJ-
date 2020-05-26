@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountsService } from '../accounts.service';
 import { AccountModel } from 'src/app/models/account.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-accounts',
@@ -12,7 +13,7 @@ export class AccountsComponent implements OnInit {
   accounts: AccountModel[] = [];
   displayedColumns: string[] = ['id', 'userName', 'email', 'firstName', 'lastName'];
 
-  constructor(private accountsService: AccountsService) { }
+  constructor(private accountsService: AccountsService, private router: Router) { }
 
   fetchAccounts() {
     this.accountsService.getAccounts()
@@ -24,6 +25,10 @@ export class AccountsComponent implements OnInit {
 
   ngOnInit() {
     this.fetchAccounts();
+  }
+
+  onAddClicked() {
+    this.router.navigateByUrl('accounts/add')
   }
 
 }
