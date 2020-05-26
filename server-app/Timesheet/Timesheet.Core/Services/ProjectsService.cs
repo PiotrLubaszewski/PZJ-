@@ -85,6 +85,7 @@ namespace Timesheet.Core.Services
                 throw new InvalidValidationException(nameof(userId), $"'{nameof(userId).ToPascalCase().InsertSpaces()}' is invalid.");
 
             return await _context.UserProjects
+                .Where(x => x.UserId == guid)
                 .Include(x => x.Project)
                 .Select(x => new ProjectModel
                 {
