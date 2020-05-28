@@ -11,5 +11,6 @@ namespace Timesheet.Persistence.Entities
         public string Name { get; set; }
 
         public ICollection<UserProject> UserProjects { get; set; }
+        public ICollection<ProjectTask> ProjectTasks { get; set; }
     }
 }

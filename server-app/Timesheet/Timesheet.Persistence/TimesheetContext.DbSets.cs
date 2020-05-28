@@ -12,5 +12,6 @@ namespace Timesheet.Persistence
         public DbSet<Salary> Salaries { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<UserProject> UserProjects { get; set; }
+        public DbSet<ProjectTask> ProjectTasks { get; set; }
     }
 }
