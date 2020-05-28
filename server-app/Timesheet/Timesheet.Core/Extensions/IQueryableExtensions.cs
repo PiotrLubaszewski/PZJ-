@@ -29,7 +29,19 @@ namespace Timesheet.Core.Extensions
                 query = OrderBy(query, operationQuery.Sort);
             }
 
-            operationQuery.PageSize = operationQuery.PageSize > 0 ? operationQuery.PageSize : 25;
+            if (operationQuery.PageSize < 1)
+            {
+                var allResults = await query.ToListAsync(cancellationToken);
+
+                return new CollectionResult<T>
+                {
+                    Data = allResults,
+                    TotalCount = totalCount,
+                    CurrentPage = 1,
+                    PagesCount = 1
+                };
+            }
+
             operationQuery.CurrentPage = operationQuery.CurrentPage > 0 ? operationQuery.CurrentPage : 1;
 
             var pagesCount = (totalCount + operationQuery.PageSize - 1) / operationQuery.PageSize;
