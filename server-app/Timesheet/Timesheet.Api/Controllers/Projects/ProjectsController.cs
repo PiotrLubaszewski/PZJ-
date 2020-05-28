@@ -87,5 +87,45 @@ namespace Timesheet.Api.Controllers.Projects
 
             return this.Result();
         }
+
+        /// <summary>
+        /// Returns all projects assigned to specific account.
+        /// Can be paginated.
+        /// Needed role: 'Admin' or 'Manager'.
+        /// </summary>
+        [Authorize(Roles = "Admin, Manager")]
+        [HttpGet("/accounts/{userId}/projects")]
+        public async Task<ApiResponse<ICollectionResult<ProjectModel>>> GetAsync(string userId, [FromQuery] OperationQuery operationQuery, CancellationToken cancellationToken)
+        {
+            var result = await _projectsService.GetUserProjectsAsync(userId, operationQuery, cancellationToken);
+
+            return this.Result(result);
+        }
+
+        /// <summary>
+        /// Adds new project to specific account.
+        /// Needed role: 'Admin' or 'Manager'.
+        /// </summary>
+        [Authorize(Roles = "Admin, Manager")]
+        [HttpPost("/accounts/{userId}/projects")]
+        public async Task<ApiResponse> PostAsync(string userId, [FromBody] AddUserProjectModel model, CancellationToken cancellationToken)
+        {
+            await _projectsService.AddUserProjectAsync(userId, model, cancellationToken);
+
+            return this.Result();
+        }
+
+        /// <summary>
+        /// Deletes specific project assigned to specific account.
+        /// Needed role: 'Admin' or 'Manager'.
+        /// </summary>
+        [Authorize(Roles = "Admin, Manager")]
+        [HttpDelete("/accounts/{userId}/projects/{projectId}")]
+        public async Task<ApiResponse> DeleteAsync(string userId, int projectId, CancellationToken cancellationToken)
+        {
+            await _projectsService.DeleteUserProjectAsync(userId, projectId, cancellationToken);
+
+            return this.Result();
+        }
     }
 }

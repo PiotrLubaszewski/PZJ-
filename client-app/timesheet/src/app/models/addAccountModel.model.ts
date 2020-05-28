@@ -1,4 +1,4 @@
-export class AddAccountModel{
+export class AddAccountModel {
   userName:	string;
   email:	string;
   firstName:	string;

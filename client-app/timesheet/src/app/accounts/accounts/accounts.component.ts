@@ -9,7 +9,6 @@ import { Router } from '@angular/router';
   styleUrls: ['./accounts.component.css']
 })
 export class AccountsComponent implements OnInit {
-
   accounts: AccountModel[] = [];
   displayedColumns: string[] = ['id', 'userName', 'email', 'firstName', 'lastName', 'actions'];
 
