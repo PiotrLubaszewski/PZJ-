@@ -13,5 +13,6 @@ namespace Timesheet.Persistence
         public DbSet<Project> Projects { get; set; }
         public DbSet<UserProject> UserProjects { get; set; }
         public DbSet<ProjectTask> ProjectTasks { get; set; }
+        public DbSet<WorkedHour> WorkedHours { get; set; }
     }
 }

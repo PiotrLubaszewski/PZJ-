@@ -14,5 +14,6 @@
         public ICollection<Salary> Salaries { get; set; }
         public ICollection<UserProject> UserProjects { get; set; }
         public ICollection<ProjectTask> ProjectTasks { get; set; }
+        public ICollection<WorkedHour> WorkedHours { get; set; }
     }
 }

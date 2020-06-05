@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Timesheet.Persistence.Entities.Identities;
 
 namespace Timesheet.Persistence.Entities
@@ -15,5 +16,7 @@ namespace Timesheet.Persistence.Entities
 
         public Project Project { get; set; }
         public ApplicationUser User { get; set; }
+
+        public ICollection<WorkedHour> WorkedHours { get; set; }
     }
 }
