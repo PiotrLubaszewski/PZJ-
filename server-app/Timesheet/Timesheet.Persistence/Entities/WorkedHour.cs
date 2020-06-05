@@ -9,7 +9,7 @@ namespace Timesheet.Persistence.Entities
         public DateTime CreatedDateTime { get; set; }
 
         public DateTime Date { get; set; }
-        public int HoursQuantity { get; set; }
+        public decimal HoursQuantity { get; set; }
 
         public Guid UserId { get; set; }
         public int ProjectId { get; set; }

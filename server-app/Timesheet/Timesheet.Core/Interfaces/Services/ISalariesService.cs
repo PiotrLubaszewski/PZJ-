@@ -15,5 +15,6 @@ namespace Timesheet.Core.Interfaces.Services
         Task AddSalaryAsync(string userId, AddSalaryModel model, CancellationToken cancellationToken);
         Task UpdateSalaryModelAsync(string userId, UpdateSalaryModel model, CancellationToken cancellationToken);
         Task DeleteSalaryAsync(string userId, int salaryId, CancellationToken cancellationToken);
+        Task<MonthSalaryModel> GetMonthSalaryAsync(string userId, int year, int month, CancellationToken cancellationToken);
     }
 }

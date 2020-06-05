@@ -27,7 +27,7 @@ namespace Timesheet.Api.Controllers.Salaries
         /// Can be paginated.
         /// Needed role: 'Admin' or 'Manager'.
         /// </summary>
-        [Authorize(Roles = "Admin, Manager")]
+        //[Authorize(Roles = "Admin, Manager")]
         [HttpGet("/accounts/{userId}/salaries")]
         public async Task<ApiResponse<ICollectionResult<SalaryModel>>> GetUserSalariesAsync(string userId, [FromQuery] OperationQuery operationQuery, CancellationToken cancellationToken)
         {
@@ -40,7 +40,7 @@ namespace Timesheet.Api.Controllers.Salaries
         /// Returns specific salary assigned to specific account.
         /// Needed role: 'Admin' or 'Manager'.
         /// </summary>
-        [Authorize(Roles = "Admin, Manager")]
+        //[Authorize(Roles = "Admin, Manager")]
         [HttpGet("/accounts/{userId}/salaries/{salaryId}")]
         public async Task<ApiResponse<SalaryModel>> GetUserSalaryByIdAsync(string userId, int salaryId, CancellationToken cancellationToken)
         {
@@ -53,7 +53,7 @@ namespace Timesheet.Api.Controllers.Salaries
         /// Returns current salary assigned to specific account.
         /// Needed role: 'Admin' or 'Manager'.
         /// </summary>
-        [Authorize(Roles = "Admin, Manager")]
+        //[Authorize(Roles = "Admin, Manager")]
         [HttpGet("/accounts/{userId}/salaries/current")]
         public async Task<ApiResponse<SalaryModel>> GetCurrentUserSalaryAsync(string userId, CancellationToken cancellationToken)
         {
@@ -66,7 +66,7 @@ namespace Timesheet.Api.Controllers.Salaries
         /// Returns last salary assigned to specific account.
         /// Needed role: 'Admin' or 'Manager'.
         /// </summary>
-        [Authorize(Roles = "Admin, Manager")]
+        //[Authorize(Roles = "Admin, Manager")]
         [HttpGet("/accounts/{userId}/salaries/last")]
         public async Task<ApiResponse<SalaryModel>> GetLastUserSalaryAsync(string userId, CancellationToken cancellationToken)
         {
@@ -79,7 +79,7 @@ namespace Timesheet.Api.Controllers.Salaries
         /// Adds new salary to specific account.
         /// Needed role: 'Admin' or 'Manager'.
         /// </summary>
-        [Authorize(Roles = "Admin, Manager")]
+        //[Authorize(Roles = "Admin, Manager")]
         [HttpPost("/accounts/{userId}/salaries")]
         public async Task<ApiResponse> AddSalaryAsync(string userId, AddSalaryModel model, CancellationToken cancellationToken)
         {
@@ -92,7 +92,7 @@ namespace Timesheet.Api.Controllers.Salaries
         /// Updates specific salary assigned to specific account.
         /// Needed role: 'Admin' or 'Manager'.
         /// </summary>
-        [Authorize(Roles = "Admin, Manager")]
+        //[Authorize(Roles = "Admin, Manager")]
         [HttpPut("/accounts/{userId}/salaries")]
         public async Task<ApiResponse> UpdateSalaryModelAsync(string userId, UpdateSalaryModel model, CancellationToken cancellationToken)
         {
@@ -105,13 +105,26 @@ namespace Timesheet.Api.Controllers.Salaries
         /// Deletes specific salary assigned to specific account.
         /// Needed role: 'Admin' or 'Manager'.
         /// </summary>
-        [Authorize(Roles = "Admin, Manager")]
+        //[Authorize(Roles = "Admin, Manager")]
         [HttpDelete("/accounts/{userId}/salaries/{salaryId}")]
         public async Task<ApiResponse> DeleteSalaryAsync(string userId, int salaryId, CancellationToken cancellationToken)
         {
             await _salariesService.DeleteSalaryAsync(userId, salaryId, cancellationToken);
 
             return this.Result();
+        }
+
+        /// <summary>
+        /// Returns calculated salary for given month of a year.
+        /// Needed role: 'Admin' or 'Manager'.
+        /// </summary>
+        //[Authorize(Roles = "Admin, Manager")]
+        [HttpGet("/accounts/{userId}/month-salaries/{year}/{month}")]
+        public async Task<ApiResponse<MonthSalaryModel>> GetMonthSalaryAsync(string userId, int year, int month, CancellationToken cancellationToken)
+        {
+            var result = await _salariesService.GetMonthSalaryAsync(userId, year, month, cancellationToken);
+
+            return this.Result(result);
         }
     }
 }

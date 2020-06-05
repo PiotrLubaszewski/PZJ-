@@ -12,7 +12,7 @@ namespace Timesheet.Core.Models.WorkedHours
     public class WorkedHourItem
     {
         public int Id { get; set; }
-        public int HoursQuantity { get; set; }
+        public decimal HoursQuantity { get; set; }
         public string UserId { get; set; }
         public int ProjectId { get; set; }
         public string ProjectName { get; set; }
