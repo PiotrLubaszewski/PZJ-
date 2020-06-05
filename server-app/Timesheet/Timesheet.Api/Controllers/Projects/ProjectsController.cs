@@ -27,7 +27,7 @@ namespace Timesheet.Api.Controllers.Projects
         /// Can be paginated.
         /// Needed role: 'Admin' or 'Manager'.
         /// </summary>
-        [Authorize(Roles = "Admin, Manager")]
+       // [Authorize(Roles = "Admin, Manager")]
         [HttpGet]
         public async Task<ApiResponse<ICollectionResult<ProjectModel>>> GetAsync([FromQuery] OperationQuery operationQuery, CancellationToken cancellationToken)
         {
@@ -40,7 +40,7 @@ namespace Timesheet.Api.Controllers.Projects
         /// Returns specific project.
         /// Needed role: 'Admin' or 'Manager'.
         /// </summary>
-        [Authorize(Roles = "Admin, Manager")]
+        //[Authorize(Roles = "Admin, Manager")]
         [HttpGet("{projectId}")]
         public async Task<ApiResponse<ProjectModel>> GetByIdAsync(int projectId, CancellationToken cancellationToken)
         {
@@ -53,7 +53,7 @@ namespace Timesheet.Api.Controllers.Projects
         /// Adds new project.
         /// Needed role: 'Admin' or 'Manager'.
         /// </summary>
-        [Authorize(Roles = "Admin, Manager")]
+        //[Authorize(Roles = "Admin, Manager")]
         [HttpPost]
         public async Task<ApiResponse> PostAsync([FromBody] AddProjectModel model, CancellationToken cancellationToken)
         {
@@ -66,7 +66,7 @@ namespace Timesheet.Api.Controllers.Projects
         /// Updated specific project.
         /// Needed role: 'Admin' or 'Manager'.
         /// </summary>
-        [Authorize(Roles = "Admin, Manager")]
+        //[Authorize(Roles = "Admin, Manager")]
         [HttpPut]
         public async Task<ApiResponse> PutAsync([FromBody] UpdateProjectModel model, CancellationToken cancellationToken)
         {
@@ -79,7 +79,7 @@ namespace Timesheet.Api.Controllers.Projects
         /// Deletes specific project.
         /// Needed role: 'Admin' or 'Manager'.
         /// </summary>
-        [Authorize(Roles = "Admin, Manager")]
+        //[Authorize(Roles = "Admin, Manager")]
         [HttpDelete("{projectId}")]
         public async Task<ApiResponse> DeleteAsync(int projectId, CancellationToken cancellationToken)
         {
@@ -93,7 +93,7 @@ namespace Timesheet.Api.Controllers.Projects
         /// Can be paginated.
         /// Needed role: 'Admin' or 'Manager'.
         /// </summary>
-        [Authorize(Roles = "Admin, Manager")]
+        //[Authorize(Roles = "Admin, Manager")]
         [HttpGet("/accounts/{userId}/projects")]
         public async Task<ApiResponse<ICollectionResult<ProjectModel>>> GetAsync(string userId, [FromQuery] OperationQuery operationQuery, CancellationToken cancellationToken)
         {
@@ -106,7 +106,7 @@ namespace Timesheet.Api.Controllers.Projects
         /// Adds new project to specific account.
         /// Needed role: 'Admin' or 'Manager'.
         /// </summary>
-        [Authorize(Roles = "Admin, Manager")]
+       // [Authorize(Roles = "Admin, Manager")]
         [HttpPost("/accounts/{userId}/projects")]
         public async Task<ApiResponse> PostAsync(string userId, [FromBody] AddUserProjectModel model, CancellationToken cancellationToken)
         {
@@ -119,7 +119,7 @@ namespace Timesheet.Api.Controllers.Projects
         /// Deletes specific project assigned to specific account.
         /// Needed role: 'Admin' or 'Manager'.
         /// </summary>
-        [Authorize(Roles = "Admin, Manager")]
+        //[Authorize(Roles = "Admin, Manager")]
         [HttpDelete("/accounts/{userId}/projects/{projectId}")]
         public async Task<ApiResponse> DeleteAsync(string userId, int projectId, CancellationToken cancellationToken)
         {

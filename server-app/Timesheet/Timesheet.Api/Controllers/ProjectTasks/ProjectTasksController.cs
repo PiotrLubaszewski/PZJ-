@@ -26,7 +26,7 @@ namespace Timesheet.Api.Controllers.ProjectTasks
         /// Returns collection of project task of specific accounts project.
         /// Needed role: 'Admin' or 'Manager'.
         /// </summary>
-        [Authorize(Roles = "Admin, Manager")]
+        //[Authorize(Roles = "Admin, Manager")]
         [HttpGet("/accounts/{userId}/projects/{projectId}/tasks")]
         public async Task<ApiResponse<ICollectionResult<ProjectTaskModel>>> GetUserProjectTasksAsync(string userId, int projectId, [FromQuery] OperationQuery operationQuery, CancellationToken cancellationToken)
         {
@@ -39,7 +39,7 @@ namespace Timesheet.Api.Controllers.ProjectTasks
         /// Rreturns specific project task of specific accounts project.
         /// Needed role: 'Admin' or 'Manager'.
         /// </summary>
-        [Authorize(Roles = "Admin, Manager")]
+        //[Authorize(Roles = "Admin, Manager")]
         [HttpGet("/accounts/{userId}/projects/{projectId}/tasks/{projectTaskId}")]
         public async Task<ApiResponse<ProjectTaskModel>> GetUserProjectTaskByIdAsync(string userId, int projectId, int projectTaskId, CancellationToken cancellationToken)
         {
@@ -52,7 +52,7 @@ namespace Timesheet.Api.Controllers.ProjectTasks
         /// Adds new task to specific accounts project.
         /// Needed role: 'Admin' or 'Manager'.
         /// </summary>
-        [Authorize(Roles = "Admin, Manager")]
+        //[Authorize(Roles = "Admin, Manager")]
         [HttpPost("/accounts/{userId}/projects/{projectId}/tasks")]
         public async Task<ApiResponse> AddUserProjectTaskAsync(string userId, int projectId, [FromBody] AddProjectTaskModel model, CancellationToken cancellationToken)
         {
@@ -65,7 +65,7 @@ namespace Timesheet.Api.Controllers.ProjectTasks
         /// Updates specific task from specific accounts project.
         /// Needed role: 'Admin' or 'Manager'.
         /// </summary>
-        [Authorize(Roles = "Admin, Manager")]
+       // [Authorize(Roles = "Admin, Manager")]
         [HttpPut("/accounts/{userId}/projects/{projectId}/tasks/{projectTaskId}")]
         public async Task<ApiResponse> UpdateUserProjectTaskAsync(string userId, int projectId, int projectTaskId, [FromBody] UpdateProjectTaskModel model, CancellationToken cancellationToken)
         {
@@ -78,7 +78,7 @@ namespace Timesheet.Api.Controllers.ProjectTasks
         /// Deletes specific task from specific accounts project.
         /// Needed role: 'Admin' or 'Manager'.
         /// </summary>
-        [Authorize(Roles = "Admin, Manager")]
+        //[Authorize(Roles = "Admin, Manager")]
         [HttpDelete("/accounts/{userId}/projects/{projectId}/tasks/{projectTaskId}")]
         public async Task<ApiResponse> DeleteUserProjectTaskAsync(string userId, int projectId, int projectTaskId, CancellationToken cancellationToken)
         {

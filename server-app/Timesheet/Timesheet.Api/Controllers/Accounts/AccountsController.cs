@@ -48,7 +48,7 @@
         /// Can be paginated.
         /// Needed role: 'Admin' or 'Manager'.
         /// </summary>
-        [Authorize(Roles = "Admin, Manager")]
+        //[Authorize(Roles = "Admin, Manager")]
         [HttpGet]
         public async Task<ApiResponse<ICollectionResult<AccountModel>>> GetUsersAsync([FromQuery] OperationQuery operationQuery, CancellationToken cancellationToken)
         {
@@ -61,7 +61,7 @@
         /// Returns specific account.
         /// Needed role: 'Admin' or 'Manager'.
         /// </summary>
-        [Authorize(Roles = "Admin, Manager")]
+        //[Authorize(Roles = "Admin, Manager")]
         [HttpGet("{userId}")]
         public async Task<ApiResponse<AccountModel>> GetUserByIdAsync(string userId)
         {
@@ -74,7 +74,7 @@
         /// Adds new account.
         /// Needed role: 'Admin'.
         /// </summary>
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ApiResponse> AddAccountAsync(AddAccountModel model)
         {

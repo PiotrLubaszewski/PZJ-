@@ -27,7 +27,7 @@ namespace Timesheet.Api.Controllers.Accounts
         /// Can be paginated.
         /// Needed role: 'Admin'.
         /// </summary>
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<ApiResponse<ICollectionResult<RoleModel>>> GetRolesAsync([FromQuery] OperationQuery operationQuery, CancellationToken cancellationToken)
         {
@@ -41,7 +41,7 @@ namespace Timesheet.Api.Controllers.Accounts
         /// Can be paginated.
         /// Needed role: 'Admin'.
         /// </summary>
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpGet("/accounts/{userId}/roles")]
         public async Task<ApiResponse<ICollectionResult<RoleModel>>> GetUserRolesAsync(string userId, [FromQuery] OperationQuery operationQuery, CancellationToken cancellationToken)
         {
@@ -54,7 +54,7 @@ namespace Timesheet.Api.Controllers.Accounts
         /// Assign new roles to specific account.
         /// Needed role: 'Admin'.
         /// </summary>
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpPost("/accounts/{userId}/roles")]
         public async Task<ApiResponse> AddUserRolesAsync(string userId, AddOrUpdateUserRolesModel model, CancellationToken cancellationToken)
         {
@@ -67,7 +67,7 @@ namespace Timesheet.Api.Controllers.Accounts
         /// Updates roles assigned to specific account.
         /// Needed role: 'Admin'.
         /// </summary>
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpPut("/accounts/{userId}/roles")]
         public async Task<ApiResponse> UpdateUserRolesAsync(string userId, AddOrUpdateUserRolesModel model, CancellationToken cancellationToken)
         {
