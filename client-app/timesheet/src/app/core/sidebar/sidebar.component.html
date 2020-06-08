@@ -10,6 +10,7 @@
   <button mat-button [matMenuTriggerFor]="managerMenu" *ngIf="authService.isAuthenticated() && authService.isManager() && !authService.isAdmin()">Manager Menu</button>
   <mat-menu #managerMenu="matMenu">
     <button mat-menu-item routerLink="/accounts">Accounts</button>
+    <button mat-menu-item routerLink="/projects">Projects</button>
   </mat-menu>
 
   <button mat-button routerLink="/logout" *ngIf="authService.isAuthenticated()">Logout</button>
