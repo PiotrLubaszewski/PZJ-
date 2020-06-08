@@ -76,7 +76,7 @@ namespace Timesheet.Core.Services
                 Date = model.Date.Date,
                 HoursQuantity = model.HoursQuantity,
                 ProjectId = project.Id,
-                ProjectTaskId = project.Id,
+                ProjectTaskId = model.ProjectTaskId,
                 UserId = guid
             };
 

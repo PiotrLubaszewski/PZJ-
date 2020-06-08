@@ -1,0 +1,15 @@
+﻿@model Timesheet.Core.Models.Salaries.MonthlySalaryModel
+
+<div style="font-family: Roboto, 'Helvetica Neue', sans-serif;">
+    <h1 style="font-size: 64px;">Monthly salary report</h1>
+    <h2 style="font-size: 32px; padding: 0; margin: 0;">@Model.Fullname</h2>
+    <h2 style="font-size: 32px; padding:0;margin:0;">@Timesheet.Api.Infrastructure.Utils.PdfDocumentUtils.GetMonthAndYearFromDateTime(Model.Date)</h2>
+    <h3 style="font-size: 24px;">Total salary: @Model.SalaryAmount.ToString() zł</h3>
+    <h3 style="font-size: 24px;">Total worked hours: @Model.TotalWorkedHours</h3>
+    <h3 style="font-size: 24px;">Total estimated hours: @Model.TotalPredictedHours</h3>
+    <h3 style="font-size: 24px;">Total full time hours: @Model.TotalFullTimeHours</h3>
+    <h3 style="font-size: 24px;">Days: @Model.TotalDays</h3>
+    <h3 style="font-size: 24px;">Working days: @Model.WorkingDays</h3>
+    <h3 style="font-size: 24px;">Ratio: @(Model.TotalWorkedHoursRatio * 100)%</h3>
+    <img src="@Timesheet.Api.Infrastructure.Utils.PdfDocumentUtils.GetMonthlySalaryChartUrl(Model)" />
+</div>

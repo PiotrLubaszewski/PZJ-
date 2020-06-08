@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading;
 using System.Threading.Tasks;
 using Timesheet.Api.Infrastructure.Extensions;
+using Timesheet.Api.Infrastructure.Utils;
 using Timesheet.Api.Models;
 using Timesheet.Core.Interfaces.Services;
 using Timesheet.Core.Models.Collections.Interfaces;
@@ -16,11 +17,14 @@ namespace Timesheet.Api.Controllers.Salaries
     public class SalariesController : ControllerBase
     {
         private readonly ISalariesService _salariesService;
+        private readonly IPdfService _pdfService;
 
-        public SalariesController(ISalariesService salariesService)
+        public SalariesController(ISalariesService salariesService, IPdfService pdfService)
         {
             _salariesService = salariesService;
+            _pdfService = pdfService;
         }
+
 
         /// <summary>
         /// Returns all salaries assigned to specific account.
@@ -119,12 +123,53 @@ namespace Timesheet.Api.Controllers.Salaries
         /// Needed role: 'Admin' or 'Manager'.
         /// </summary>
         //[Authorize(Roles = "Admin, Manager")]
-        [HttpGet("/accounts/{userId}/month-salaries/{year}/{month}")]
-        public async Task<ApiResponse<MonthSalaryModel>> GetMonthSalaryAsync(string userId, int year, int month, CancellationToken cancellationToken)
+        [HttpGet("/accounts/{userId}/monthly-salaries/{year}/{month}")]
+        public async Task<ApiResponse<MonthlySalaryModel>> GetMonthlySalaryAsync(string userId, int year, int month, CancellationToken cancellationToken)
         {
-            var result = await _salariesService.GetMonthSalaryAsync(userId, year, month, cancellationToken);
+            var result = await _salariesService.GetMonthlySalaryAsync(userId, year, month, cancellationToken);
 
             return this.Result(result);
+        }
+
+        /// <summary>
+        /// Returns PDF document with calculated salary for given month of a year.
+        /// Needed role: 'Admin' or 'Manager'.
+        /// </summary>
+        //[Authorize(Roles = "Admin, Manager")]
+        [HttpGet("/accounts/{userId}/monthly-salaries/{year}/{month}/pdf")]
+        public async Task<IActionResult> GetMonthSalaryPdfAsync(string userId, int year, int month, CancellationToken cancellationToken)
+        {
+            var result = await _salariesService.GetMonthlySalaryAsync(userId, year, month, cancellationToken);
+            var pdf = await _pdfService.GenerateMonthlySalaryDocumentAsync(result);
+
+            return File(pdf.BinaryData, "application/pdf");
+        }
+
+        /// <summary>
+        /// Returns time consuming summary for given month of a year.
+        /// Needed role: 'Admin' or 'Manager'.
+        /// </summary>
+        //[Authorize(Roles = "Admin, Manager")]
+        [HttpGet("/accounts/{userId}/monthly-time-consuming-summary/{year}/{month}")]
+        public async Task<ApiResponse<MonthlyTimeConsumingSummaryModel>> GetMonthlyTimeConsumingSummaryAsync(string userId, int year, int month, CancellationToken cancellationToken)
+        {
+            var result = await _salariesService.GetMonthlyTimeConsumingSummaryAsync(userId, year, month, cancellationToken);
+
+            return this.Result(result);
+        }
+
+        /// <summary>
+        /// Returns PDF document with time consuming summary for given month of a year.
+        /// Needed role: 'Admin' or 'Manager'.
+        /// </summary>
+        //[Authorize(Roles = "Admin, Manager")]
+        [HttpGet("/accounts/{userId}/monthly-time-consuming-summary/{year}/{month}/pdf")]
+        public async Task<IActionResult> GetMonthlyTimeConsumingSummaryPdfAsync(string userId, int year, int month, CancellationToken cancellationToken)
+        {
+            var result = await _salariesService.GetMonthlyTimeConsumingSummaryAsync(userId, year, month, cancellationToken);
+            var pdf = await _pdfService.GenerateonthlyTimeConsumingSummaryDocumentAsync(result);
+
+            return File(pdf.BinaryData, "application/pdf");
         }
     }
 }

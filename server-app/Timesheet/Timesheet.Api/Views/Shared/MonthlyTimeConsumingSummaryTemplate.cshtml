@@ -1,0 +1,30 @@
+﻿@model Timesheet.Core.Models.Salaries.MonthlyTimeConsumingSummaryModel
+
+<div style="font-family: Roboto, 'Helvetica Neue', sans-serif;">
+    <h1 style="font-size: 64px;">Monthly time consuming report</h1>
+    <h2 style="font-size: 32px; padding:0;margin:0;">@Model.Fullname</h2>
+    <h2 style="font-size: 32px; padding:0;margin:0;">@Timesheet.Api.Infrastructure.Utils.PdfDocumentUtils.GetMonthAndYearFromDateTime(Model.Date)</h2>
+    <h3 style="font-size: 24px;">Total consumed hours: @Model.TotalConsumedHours</h3>
+
+    @foreach (var project in Model.Projects)
+    {
+        <hr style="margin-top: 10px;"/>
+        <h3 style="font-size: 24px;">Project name: @project.Name</h3>
+        <table border="1" style="margin-top: 30px;">
+            <thead>
+                <tr><th style="font-size: 24px">Task name</th><th style="font-size: 24px">Consumed hours</th></tr>
+            </thead>
+            <tbody>
+                @foreach (var task in project.Tasks)
+                {
+                    <tr><td width="500px" style="font-size: 24px">@task.Name</td><td width="500px" style="font-size: 24px">@task.ConsumedHours</td></tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr><td style="text-align: right; font-size: 24px">Total:</td><td style="font-size: 24px">@Model.TotalConsumedHours</td></tr>
+            </tfoot>
+        </table>
+
+        <img src="@Timesheet.Api.Infrastructure.Utils.PdfDocumentUtils.GetMonthlyProjectTasksTimeConsumingChartUrl(project)" style="margin-top: 30px;"/>
+    }
+</div>
