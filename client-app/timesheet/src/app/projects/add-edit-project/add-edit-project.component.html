@@ -1,7 +1,21 @@
 <div class="container">
   <div class="container-form">
     <mat-card class="form-card">
-    <form [formGroup]="addProjectForm" (ngSubmit)="submitForm()" >
+    <form *ngIf="!editMode" [formGroup]="addProjectForm" (ngSubmit)="submitForm()" >
+      Add
+      <mat-form-field class="input-row">
+        <input matInput type="text" formControlName="name" placeholder="name">
+        <mat-error *ngIf="addProjectForm.get('username').errors">Name is required.</mat-error>
+      </mat-form-field>
+      <button mat-raised-button color="primary" class="mt-10">Add</button>
+      <button mat-raised-button color="warn" class="ml-10 mt-10" routerLink="/projects">Cancel</button>
+    </form>
+    <form *ngIf="editMode" [formGroup]="addProjectForm" (ngSubmit)="submitForm()" >
+      Edit
+      <mat-form-field class="input-row">
+        <input matInput type="text" formControlName="id" placeholder="id" readonly>
+        <mat-error *ngIf="addProjectForm.get('id').errors">Id is required.</mat-error>
+      </mat-form-field>
       <mat-form-field class="input-row">
         <input matInput type="text" formControlName="name" placeholder="name">
         <mat-error *ngIf="addProjectForm.get('username').errors">Name is required.</mat-error>

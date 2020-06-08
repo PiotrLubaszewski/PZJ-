@@ -39,8 +39,8 @@ export class ProjectService {
     );
   }
 
-  postProjects(account: any): Observable<ApiResponse<string>> {
-    const requestBody = account;
+  postProjects(project: any): Observable<ApiResponse<string>> {
+    const requestBody = project;
     const httpOptions = {
       headers: new HttpHeaders({
         "Content-Type": "application/json",
@@ -52,4 +52,21 @@ export class ProjectService {
       requestBody,
       httpOptions
     );
-  }}
+  }
+
+  putProjects(project: any): Observable<ApiResponse<string>> {
+    const requestBody = project;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + this.authService.getAccessToken(),
+      }),
+    };
+    return this.http.put<ApiResponse<string>>(
+      this.origin + "/projects",
+      requestBody,
+      httpOptions
+    );
+  }
+
+}
