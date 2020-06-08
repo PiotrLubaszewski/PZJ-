@@ -5,6 +5,7 @@
   <button mat-button [matMenuTriggerFor]="adminMenu" *ngIf="authService.isAuthenticated() && authService.isAdmin()">Admin Menu</button>
   <mat-menu #adminMenu="matMenu">
     <button mat-menu-item routerLink="/accounts">Accounts</button>
+    <button mat-menu-item routerLink="/projects">Projects</button>
   </mat-menu>
 
   <button mat-button [matMenuTriggerFor]="managerMenu" *ngIf="authService.isAuthenticated() && authService.isManager() && !authService.isAdmin()">Manager Menu</button>

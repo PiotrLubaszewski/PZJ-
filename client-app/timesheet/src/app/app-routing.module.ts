@@ -10,7 +10,8 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'logout', component: LogoutComponent},
   {path: 'home', component: HomeComponent},
-  {path: 'accounts', loadChildren: () => import('./accounts/accounts.module').then(m => m.AccountsModule)}
+  {path: 'accounts', loadChildren: () => import('./accounts/accounts.module').then(m => m.AccountsModule)},
+  {path: 'projects', loadChildren: () => import('./projects/projects.module').then(m => m.ProjectsModule)}
 ];
 
 @NgModule({
