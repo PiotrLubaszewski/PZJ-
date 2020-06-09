@@ -1,6 +1,8 @@
 <mat-toolbar color="primary">
-  <span><a routerLink="/home" class="home-link">Timesheet</a></span>
+  <span><a routerLink="/summary" class="home-link">Timesheet</a></span>
   <span class="spacer"></span>
+
+  <button mat-button routerLink="/home">Calendar</button>
 
   <button mat-button [matMenuTriggerFor]="adminMenu" *ngIf="authService.isAuthenticated() && authService.isAdmin()">Admin Menu</button>
   <mat-menu #adminMenu="matMenu">

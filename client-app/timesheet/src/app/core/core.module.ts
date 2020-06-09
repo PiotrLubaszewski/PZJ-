@@ -1,3 +1,4 @@
+import { SummaryComponent } from './summary/summary.component';
 import { HomeComponent } from './home/home.component';
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
@@ -13,7 +14,8 @@ import { LogoutComponent } from './logout/logout.component';
     LoginComponent,
     SidebarComponent,
     LogoutComponent,
-    HomeComponent
+    HomeComponent,
+    SummaryComponent
   ],
   imports: [
     CommonModule,
@@ -25,7 +27,8 @@ import { LogoutComponent } from './logout/logout.component';
     SidebarComponent,
     LoginComponent,
     LogoutComponent,
-    HomeComponent
+    HomeComponent,
+    SummaryComponent
   ]
 })
 

@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     if (this.authService.isAuthenticated()) {
-      this.router.navigateByUrl('/home');
+      this.router.navigateByUrl('/summary');
     }
   }
 
@@ -46,7 +46,7 @@ export class LoginComponent implements OnInit {
     this.accountsService.authorize(user).subscribe(
       response => {
         this.authService.authenticate(response.result);
-        this.router.navigateByUrl('home');
+        this.router.navigateByUrl('/summary');
         this.snackBar.open('You have been logged in.', 'Close');
       },
       err => console.error(err)

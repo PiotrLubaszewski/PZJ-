@@ -1,3 +1,4 @@
+import { SummaryComponent } from './core/summary/summary.component';
 import { HomeComponent } from './core/home/home.component';
 import { LogoutComponent } from './core/logout/logout.component';
 import { NgModule } from '@angular/core';
@@ -10,6 +11,7 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'logout', component: LogoutComponent},
   {path: 'home', component: HomeComponent},
+  {path: 'summary', component: SummaryComponent},
   {path: 'accounts', loadChildren: () => import('./accounts/accounts.module').then(m => m.AccountsModule)},
   {path: 'projects', loadChildren: () => import('./projects/projects.module').then(m => m.ProjectsModule)}
 ];
