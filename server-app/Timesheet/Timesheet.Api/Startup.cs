@@ -38,6 +38,8 @@ namespace Timesheet.Api
 
             // Add Cors policy
             services.AddCorsPolicy();
+
+            IronPdf.License.LicenseKey = "IRONPDF-160402AFC4-178847-665F93-FB3A4A19AA-CE4B4189-UExCA02766C40528D8-DELPLOYMENT.TRIAL.EXPIRES.10.JUL.2020";
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
