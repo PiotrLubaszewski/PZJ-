@@ -1,3 +1,55 @@
-<div class="container" *ngIf="authService.getUser()">
-  Hello, {{ authService.getUser().firstName }}
+<div class="container">
+  <div class="d-flex justify-content-end my-2">
+    <button class="btn btn-sm btn-secondary mx-2">Day</button>
+    <button class="btn btn-sm btn-secondary mx-2">Week</button>
+    <button class="btn btn-sm btn-secondary mx-2">Month</button>
+  </div>
+  <div class="row">
+    <div class="alert alert-secondary col-md-12">
+      <div class="row">
+        <div class="col-md-1">
+          <button class="btn btn-sm btn-secondary">Add</button>
+        </div>
+        <div class="col-md-4"></div>
+        <div class="col-md-1">
+          <div [class]=" monday === currentDate? 'badge text-danger': 'badge' "> {{monday | date:'d MMM'}}</div>
+        </div>
+        <div class="col-md-1">
+          <div [class]=" tuesday === currentDate? 'badge text-danger': 'badge' "> {{tuesday | date:'d MMM'}} </div>
+        </div>
+        <div class="col-md-1">
+          <div [class]=" wedensday === currentDate? 'badge text-danger': 'badge' "> {{wedensday | date:'d MMM'}} </div>
+        </div>
+        <div class="col-md-1">
+          <div [class]=" thursday === currentDate? 'badge text-danger': 'badge' "> {{thursday | date:'d MMM'}} </div>
+        </div>
+        <div class="col-md-1">
+          <div [class]=" friday === currentDate? 'badge text-danger': 'badge' "> {{friday | date:'d MMM'}}</div>
+        </div>
+        <div class="col-md-1">
+          <div [class]=" saturday === currentDate? 'badge text-danger': 'badge' "> {{saturday | date:'d MMM'}}</div>
+        </div>
+        <div class="col-md-1">
+          <div [class]=" sunday === currentDate? 'badge text-danger': 'badge' "> {{sunday | date:'d MMM'}}</div>
+        </div>
+      </div>
+    </div>
+    <div *ngFor="let p of projects" class="{{p.class}}">
+      <div class="row">
+        <div class="col-md-3">{{p.name}}</div>
+        <div class="col-md-2"> <i>{{p.description}}</i> </div>
+        <div class="col-md-1"><input type="text" class="form-control" /></div>
+        <div class="col-md-1"><input type="text" class="form-control" /></div>
+        <div class="col-md-1"><input type="text" class="form-control" /></div>
+        <div class="col-md-1"><input type="text" class="form-control" /></div>
+        <div class="col-md-1"><input type="text" class="form-control" /></div>
+        <div class="col-md-1">
+          <input type="text" class="form-control" readonly />
+        </div>
+        <div class="col-md-1">
+          <input type="text" class="form-control" readonly />
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
