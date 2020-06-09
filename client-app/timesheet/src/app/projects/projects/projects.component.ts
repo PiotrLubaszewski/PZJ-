@@ -24,6 +24,11 @@ export class ProjectsComponent implements OnInit {
     this.router.navigateByUrl('/projects/edit/' + id );
   }
 
+  onDeleteClicked(element) {
+    const id = element.id;
+    this.projectService.deleteProjects(id);
+    location.reload();
+  }
 
   fetchProjects() {
     this.projectService.getProjects()

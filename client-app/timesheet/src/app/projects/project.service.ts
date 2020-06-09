@@ -54,6 +54,19 @@ export class ProjectService {
     );
   }
 
+  deleteProjects(id: any): Observable<ApiResponse<string>> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + this.authService.getAccessToken(),
+      }),
+    };
+    return this.http.delete<ApiResponse<string>>(
+      this.origin + "/projects/" + id,
+      httpOptions
+    );
+  }
+
   putProjects(project: any): Observable<ApiResponse<string>> {
     const requestBody = project;
     const httpOptions = {

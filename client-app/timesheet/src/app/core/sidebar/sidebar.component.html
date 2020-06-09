@@ -2,7 +2,7 @@
   <span><a routerLink="/summary" class="home-link">Timesheet</a></span>
   <span class="spacer"></span>
 
-  <button mat-button routerLink="/home">Calendar</button>
+  <button mat-button *ngIf="authService.isAuthenticated()" routerLink="/home">Calendar</button>
 
   <button mat-button [matMenuTriggerFor]="adminMenu" *ngIf="authService.isAuthenticated() && authService.isAdmin()">Admin Menu</button>
   <mat-menu #adminMenu="matMenu">
