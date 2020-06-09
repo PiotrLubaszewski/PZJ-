@@ -1,3 +1,29 @@
 <div class="container" *ngIf="authService.getUser()">
-  Hello, {{ authService.getUser().firstName }}
+  <div *ngIf="monthlySalary">
+    <div class="row">
+      <div class="col-6">
+        <h1>Monthly salary report</h1>
+        <h2 class="p-0 m-0">{{ monthlySalary.fullname }}</h2>
+        <h2 class="p-0 m-0">June 2020</h2>
+        <h3 class="p-0 m-0 mt-3">Total salary: {{ monthlySalary.salaryAmount }} zł</h3>
+        <h3 class="p-0 m-0">Total worked hours: {{ monthlySalary.totalWorkedHours }}</h3>
+        <h3 class="p-0 m-0">Total estimated hours: {{ monthlySalary.totalPredictedHours }}</h3>
+        <h3 class="p-0 m-0">Total full time hours: {{ monthlySalary.totalFullTimeHours }}</h3>
+        <h3 class="p-0 m-0">Total days: {{ monthlySalary.totalDays }}</h3>
+        <h3 class="p-0 m-0">Working days: {{ monthlySalary.workingDays }}</h3>
+        <h3 class="p-0 m-0">Ratio: {{ monthlySalary.totalWorkedHoursRatio * 100 }} %</h3>
+      </div>
+      <div class="col-6">
+        <div class="row mt-5">
+          <button mat-flat-button color="primary" (click)="downloadSalaryReport()">Download salary report</button>
+        </div>
+        <div class="row">
+          <button mat-flat-button color="primary" class="mt-1" (click)="downloadTimeConsumingReport()">Download time consuming report</button>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <img src="{{getMonthlySalaryChartUrl()}}" />
+    </div>
+  </div>
 </div>

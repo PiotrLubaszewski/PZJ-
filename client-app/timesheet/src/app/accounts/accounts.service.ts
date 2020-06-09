@@ -1,3 +1,4 @@
+import { MonthlySalaryModel } from './../models/monthly-salary.model';
 import { AuthService } from "./../shared/auth.service";
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
@@ -353,4 +354,42 @@ export class AccountsService {
       httpOptions
     );
   }
+
+  getMonthlySalary(userId: string, year: number, month: number): Observable<ApiResponse<MonthlySalaryModel>> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + this.authService.getAccessToken(),
+      }),
+    };
+    return this.http.get<ApiResponse<MonthlySalaryModel>>(
+      `${this.origin}/accounts/${userId}/monthly-salaries/${year}/${month}`, 
+      httpOptions);
+  }
+
+  downloadMonthlySalary(userId: string, year: number, month: number): Observable<Blob> {
+      const headers = new HttpHeaders({
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + this.authService.getAccessToken(),
+      });
+
+    return this.http.get(
+      `${this.origin}/accounts/${userId}/monthly-salaries/${year}/${month}/pdf`, {
+        headers,
+        responseType: 'blob'
+      });
+  }
+
+  downloadMonthlyTimeConsumingSummary(userId: string, year: number, month: number): Observable<Blob> {
+    const headers = new HttpHeaders({
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + this.authService.getAccessToken(),
+    });
+
+  return this.http.get(
+    `${this.origin}/accounts/${userId}/monthly-time-consuming-summary/${year}/${month}/pdf`, {
+      headers,
+      responseType: 'blob'
+    });
+}
 }

@@ -8,7 +8,7 @@
     {
         public AddOrUpdateUserRolesModelValidator()
         {
-            RuleFor(x => x.RolesIds).NotNull().NotEmpty().Must(x => (bool)x?.Any());
+            //RuleFor(x => x.RolesIds).NotNull().NotEmpty().Must(x => (bool)x?.Any());
         }
     }
 }

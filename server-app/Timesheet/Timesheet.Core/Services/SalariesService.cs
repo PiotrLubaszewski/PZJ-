@@ -231,6 +231,8 @@ namespace Timesheet.Core.Services
                 result.SalaryAmount = decimal.Round(result.TotalWorkedHoursRatio * salary.Amount, 2, MidpointRounding.AwayFromZero);
             }
 
+            if (result.SalaryAmount < 0) result.SalaryAmount = 0;
+
             return result;
         }
 

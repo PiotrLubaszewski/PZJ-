@@ -60,7 +60,7 @@ export class AuthService {
     date.setUTCSeconds(decodedToken.exp);
     this.tokenExpireDate = date;
 
-    this.user = new AuthenticatedUser(decodedToken.userName, decodedToken.email, decodedToken.firstName, decodedToken.lastName);
+    this.user = new AuthenticatedUser(decodedToken.userId, decodedToken.userName, decodedToken.email, decodedToken.firstName, decodedToken.lastName);
     const role = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
     if (role != null && role !== undefined && role !== '') {
       this.user.roles = role;

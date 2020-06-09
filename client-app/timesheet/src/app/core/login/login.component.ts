@@ -46,7 +46,7 @@ export class LoginComponent implements OnInit {
     this.accountsService.authorize(user).subscribe(
       response => {
         this.authService.authenticate(response.result);
-        this.router.navigateByUrl('accounts');
+        this.router.navigateByUrl('home');
         this.snackBar.open('You have been logged in.', 'Close');
       },
       err => console.error(err)
