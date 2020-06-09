@@ -151,7 +151,7 @@ namespace Timesheet.Core.Services
             await _context.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task<MonthSalaryModel> GetMonthSalaryAsync(string userId, int year, int month, CancellationToken cancellationToken)
+        public async Task<MonthlySalaryModel> GetMonthlySalaryAsync(string userId, int year, int month, CancellationToken cancellationToken)
         {
             if (!Guid.TryParse(userId, out var guid) || !await _context.Users.AnyAsync(x => x.Id == guid, cancellationToken))
                 throw new InvalidValidationException(nameof(userId), $"'{nameof(userId).ToPascalCase().InsertSpaces()}' is invalid.");
@@ -166,6 +166,7 @@ namespace Timesheet.Core.Services
             var endDate = (new DateTime(year, month + 1, day: 1) - TimeSpan.FromDays(1)).Date;
             var numberOfDays = (endDate - startDate).Days + 1;
 
+            var user = await _context.Users.SingleAsync(x => x.Id == guid, cancellationToken);
             var salary = await _context.Salaries.FirstOrDefaultAsync(x => x.UserId == guid && (x.StartDateTime.Date == startDate || (x.StartDateTime.Date < startDate && !x.EndDateTime.HasValue)), cancellationToken);
             if (salary == null) throw new InvalidValidationException(nameof(month), "This user doesn't have assinged salary for this month.");
 
@@ -173,7 +174,7 @@ namespace Timesheet.Core.Services
                 .Where(x => x.UserId == guid && x.Date.Date >= startDate && x.Date.Date <= endDate)
                 .ToListAsync(cancellationToken);
 
-            var monthDaySalaryModels = new List<MonthDaySalaryModel>();
+            var monthDaySalaryModels = new List<MonthlyDaySalaryModel>();
             var fullTimeDailyHours = 8m;
 
             for (int i = 0; i < numberOfDays; i++)
@@ -190,7 +191,7 @@ namespace Timesheet.Core.Services
                     predictedHoursThisDay = decimal.Round(fullTimeDailyHours * (salary.MinimalTimeRate / 100), 2, MidpointRounding.AwayFromZero);
                 }
 
-                monthDaySalaryModels.Add(new MonthDaySalaryModel
+                monthDaySalaryModels.Add(new MonthlyDaySalaryModel
                 {
                     Date = currDate,
                     FullTimeHours = fullTimeHoursThisDay,
@@ -199,10 +200,11 @@ namespace Timesheet.Core.Services
                 });
             }
 
-            var result = new MonthSalaryModel
+            var result = new MonthlySalaryModel
             {
                 Date = startDate,
-                Days = monthDaySalaryModels
+                Days = monthDaySalaryModels,
+                Fullname = user.FirstName + " " + user.LastName
             };
 
             var minimalHoursThisMonth = result.TotalFullTimeHours * salary.MinimalTimeRate / 100;
@@ -230,6 +232,48 @@ namespace Timesheet.Core.Services
             }
 
             return result;
+        }
+
+        public async Task<MonthlyTimeConsumingSummaryModel> GetMonthlyTimeConsumingSummaryAsync(string userId, int year, int month, CancellationToken cancellationToken)
+        {
+            if (!Guid.TryParse(userId, out var guid) || !await _context.Users.AnyAsync(x => x.Id == guid, cancellationToken))
+                throw new InvalidValidationException(nameof(userId), $"'{nameof(userId).ToPascalCase().InsertSpaces()}' is invalid.");
+
+            if (year < 2000)
+                throw new InvalidValidationException(nameof(year), $"'{nameof(year).ToPascalCase().InsertSpaces()}' is invalid.");
+
+            if (month < 1)
+                throw new InvalidValidationException(nameof(month), $"'{nameof(month).ToPascalCase().InsertSpaces()}' is invalid.");
+
+            var startDate = new DateTime(year, month, day: 1).Date;
+            var endDate = (new DateTime(year, month + 1, day: 1) - TimeSpan.FromDays(1)).Date;
+            var numberOfDays = (endDate - startDate).Days + 1;
+
+            var user = await _context.Users.SingleAsync(x => x.Id == guid, cancellationToken);
+
+            var workedHours = await _context.WorkedHours
+                .Include(x => x.ProjectTask)
+                .ThenInclude(x => x.Project)
+                .Where(x => x.UserId == guid && x.Date.Date >= startDate && x.Date.Date <= endDate)
+                .ToListAsync(cancellationToken);
+
+            return new MonthlyTimeConsumingSummaryModel
+            {
+                Date = startDate,
+                Fullname = user.FirstName + " " + user.LastName,
+                Projects = workedHours
+                    .GroupBy(x => x.ProjectTask.ProjectId)
+                    .Select(x => new MonthlyTimeConsumingProjectModel
+                    {
+                        Name = x.First().ProjectTask.Project.Name,
+                        Tasks = x.GroupBy(y => y.ProjectTaskId)
+                            .Select(y => new MonthlyTimeConsumingTaskModel
+                            {
+                                Name = y.First().ProjectTask.Name,
+                                ConsumedHours = y.Sum(z => z.HoursQuantity)
+                            })
+                    })
+            };
         }
     }
 }

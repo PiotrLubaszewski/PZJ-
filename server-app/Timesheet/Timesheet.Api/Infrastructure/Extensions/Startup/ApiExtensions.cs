@@ -37,6 +37,8 @@
                     };
                 });
 
+            services.AddRazorPages();
+
             return services;
         }
     }
