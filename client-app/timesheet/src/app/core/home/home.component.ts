@@ -18,12 +18,13 @@ export class HomeComponent implements OnInit {
   currentDate = new Date(Date.now());
 
   projects = [
-    { name: 'MyBank', description: 'development', class: 'alert alert-success'},
-    { name: 'MyBank', description: 'meetings', class: 'alert alert-success'},
-    { name: 'MyBank', description: 'management', class: 'alert alert-success'},
-    { name: 'MyBank', description: 'testing', class: 'alert alert-success'},
-    { name: 'MyBank', description: 'documentation', class: 'alert alert-success'},
-    { name: 'Leave', description: '', class: 'alert alert-info'},
+    { name: 'Restaurant Review App', description: 'Fixing Bugs', class: 'alert alert-success'},
+    { name: 'Restaurant Review App', description: 'New features', class: 'alert alert-success'},
+    { name: 'Restaurant Review App', description: 'Code refactor', class: 'alert alert-success'},
+    { name: 'Personal budget manager', description: 'Write unit tests', class: 'alert alert-primary'},
+    { name: 'Personal budget manager', description: 'Write documentation', class: 'alert alert-primary'},
+    { name: 'Personal budget manager', description: 'Deploy app', class: 'alert alert-primary'},
+    { name: 'Personal budget manager', description: 'Making demo', class: 'alert alert-primary'},
   ];
 
   constructor(public authService: AuthService, private snackBar: MatSnackBar, private router: Router) {}
