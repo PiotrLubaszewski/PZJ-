@@ -11,13 +11,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { CoreModule } from './core/core.module';
 import { AccountsModule } from './accounts/accounts.module';
 import { SharedModule } from './shared/shared.module';
-import { AddEditTasksComponent } from './add-edit-tasks/add-edit-tasks.component';
+import { AddEditTaskComponent } from './tasks/add-edit-task/add-edit-task.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent,
-    AddEditTasksComponent,
+    AppComponent
   ],
   imports: [
     HttpClientModule,
